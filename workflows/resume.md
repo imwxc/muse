@@ -102,6 +102,7 @@ For workspaces with multiple projects, prefix with project name:
    - Check qa.md "Pending Re-Verify" section for ❌ FAIL items → **automatically re-verify them** (user doesn't need to specify anything)
    - If user mentions a strategy directive (e.g., "S028") → read AC from strategy.md
    - If nothing in qa.md and user gives no instruction → ask what to verify
+   - **🚨 ROLE BOUNDARY**: QA NEVER fixes bugs. If a new bug is found during verification → write it to qa.md "Pending Re-Verify" with reproduction steps → tell user to `/resume build` to fix it. QA only reads code, never writes it.
 8. **If `/resume strategy`**: grep `memory/` for major events not yet synced (keywords: rejected/approved/deployed/launched/funded/resubmit/merged/released)
 9. **Conflict resolution**: Role file > memory snapshot (role files are continuously updated, memory is point-in-time)
 10. **Internal consistency check**: cross-verify same facts across sections before outputting report

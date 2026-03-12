@@ -23,7 +23,7 @@ If you haven't run the verification command in this message, you cannot claim it
 
 ---
 
-## Phase 0: AC-First Workflow (写代码前)
+## Phase 0: AC-First Workflow (Before Writing Code)
 
 > 💡 Inspired by opslane/verify: "You can't trust what an agent produces unless you told it what 'done' looks like before it started."
 
@@ -61,7 +61,7 @@ If you haven't run the verification command in this message, you cannot claim it
 
 ---
 
-## Phase 1: Pre-Flight Check (零成本快速失败)
+## Phase 1: Pre-Flight Check (Zero-Cost Fast Fail)
 
 > 💡 Pure checks, no LLM tokens. Fail fast before spending effort.
 
@@ -83,7 +83,7 @@ This prevents the classic failure: spending 30 minutes coding, then discovering 
 
 ---
 
-## Phase 2: The Gate Function (执行完成后)
+## Phase 2: The Gate Function (After Execution)
 
 ```
 BEFORE claiming any status or expressing satisfaction:
@@ -101,47 +101,47 @@ Skip any step = lying, not verifying
 
 ---
 
-## Phase 2.5: Deep QA Loop (反弄虚作假·无限循环)
+## Phase 2.5: Deep QA Loop (Anti-Fraud · Infinite Loop)
 
-> ⚠️ **教训**: Agent 多次声称 "QA 100% 通过"，实际只检查了页面是否加载（HTTP 200）和 API 状态码。
-> 前端通了但核心功能（TTS/支付/WebSocket）没有真正验证。这不是 QA，这是**弄虚作假**。
+> ⚠️ **Lesson learned**: Agent claimed "QA 100% passed" multiple times, but actually only checked whether pages loaded (HTTP 200) and API status codes.
+> Frontend worked but core functionality (TTS/payments/WebSocket) was never truly verified. This is not QA — this is **fraud**.
 
-### 什么不算 QA（严禁用以下方式声称 QA 通过）
+### What Does NOT Count as QA (NEVER claim QA passed using these)
 
-| 浅层检查 | 为什么不算 |
-|---------|-----------|
-| 页面返回 HTTP 200 | 只证明页面加载，不证明功能正常 |
-| API 返回正确状态码 | 只证明路由存在，不证明业务逻辑正确 |
-| `next build` / `expo prebuild` exit 0 | 只证明编译通过，不证明运行时行为正确 |
-| dev server 控制台无报错 | 不触发 ≠ 没有 bug |
-| "看起来没有错误" | 不看 ≠ 没有 |
-| "视觉检查通过" | 没看截图只看代码 ≠ 视觉通过 |
+| Shallow Check | Why It Doesn't Count |
+|--------------|---------------------|
+| Page returns HTTP 200 | Only proves page loads, not that features work |
+| API returns correct status code | Only proves route exists, not that business logic is correct |
+| `next build` / `expo prebuild` exit 0 | Only proves compilation passes, not runtime behavior |
+| Dev server console has no errors | Not triggered ≠ no bugs |
+| "Looks like no errors" | Not looking ≠ no errors |
+| "Visual check passed" | Didn't look at screenshots, only read code ≠ visual pass |
 
-### 什么才算深度 QA（必须全部做到）
+### What Counts as Deep QA (ALL must be done)
 
-- ✅ **每个用户交互流程**实际走一遍（点击按钮、提交表单、触发动画、完整聊天往返）
-- ✅ **每个 API 调用**验证请求体+响应内容（不只是状态码，检查返回的数据是否正确）
-- ✅ **每个状态变化**验证 UI 是否正确更新（loading→success→idle、错误提示显示消失）
-- ✅ **每个集成点**端到端验证（前端→API→数据库→返回→UI更新 全链路）
-- ✅ **错误路径**必须测试（无网络、无权限、空数据、非法输入、超时）
-- ✅ **需要登录的功能**用真实认证状态测试（不能跳过说"需要手动测试"）
-- ✅ **媒体功能**（TTS/语音/视频）必须实际触发并确认输出（不能只检查 API 是否返回）
+- ✅ **Every user interaction flow** actually walked through (click buttons, submit forms, trigger animations, complete chat round-trips)
+- ✅ **Every API call** verified for request body + response content (not just status code — check if returned data is correct)
+- ✅ **Every state change** verified for correct UI updates (loading→success→idle, error messages appearing/disappearing)
+- ✅ **Every integration point** verified end-to-end (frontend→API→database→response→UI update, full chain)
+- ✅ **Error paths** must be tested (no network, no permissions, empty data, invalid input, timeouts)
+- ✅ **Auth-required features** tested with real authentication state (cannot skip saying "needs manual testing")
+- ✅ **Media features** (TTS/voice/video) must be actually triggered and output confirmed (cannot just check if API responds)
 
-### QA 循环规则
+### QA Loop Rules
 
 ```
-深度 QA → 发现问题 → 修复 → 深度 QA → 发现问题 → 修复 → 深度 QA → ...
-→ 全部 100% 零问题 → 才能说"完成"
+Deep QA → find issues → fix → Deep QA → find issues → fix → Deep QA → ...
+→ ALL 100% zero issues → only then can you say "done"
 ```
 
-- ❌ 1 个 FAIL → 不允许说"完成"
-- ❌ "需要手动测试" → 能自动化就自动化，不能就用浏览器工具/curl 实际测试
-- ❌ "非 blocker" → 用户可感知的问题都是 blocker
-- **违反本规则 = 与「假功能」同级 = 最严重 bug**
+- ❌ 1 FAIL → not allowed to say "done"
+- ❌ "Needs manual testing" → if automatable then automate, if not then use browser tools/curl to actually test
+- ❌ "Not a blocker" → any user-perceivable issue IS a blocker
+- **Violating this rule = same severity as "fake functionality" = most critical bug**
 
 ---
 
-## Phase 3: Judge Verdict (结构化判决)
+## Phase 3: Judge Verdict (Structured Judgment)
 
 > 💡 Inspired by opslane/verify's Judge pattern: separate execution from judgment.
 

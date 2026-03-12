@@ -294,4 +294,4 @@ MIT License — Myths Labs
 
 ---
 
-*MUSE v2.2 — Built by [Myths Labs](https://mythslabs.ai)*
+*MUSE v2.3 — Built by [Myths Labs](https://mythslabs.ai)*

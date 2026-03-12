@@ -14,34 +14,29 @@ description: MUSE 角色文件之间的指令传递和数据回传
 
 | 指令 | 含义 |
 |------|------|
-| `/sync dya gm up` | DYA GM 汇总回传 → strategy |
-| `/sync dya gm down` | strategy 指令 → DYA GM |
-| `/sync prometheus gm up` | Prometheus GM 汇总回传 → strategy |
-| `/sync prometheus gm down` | strategy 指令 → Prometheus GM |
-| `/sync dya build up` | DYA build 进度 → GM (或 strategy) |
-| `/sync dya growth up` | DYA growth 数据 → GM (或 strategy) |
-| `/sync dya build down` | GM/strategy 指令 → DYA build |
-| `/sync dya growth down` | GM/strategy 指令 → DYA growth |
-| `/sync prometheus build up` | Prometheus build 进度 → GM (或 strategy) |
-| `/sync prometheus build down` | GM/strategy 指令 → Prometheus build |
-| `/sync dya build to growth` | DYA build → DYA growth（横向） |
-| `/sync dya qa broadcast` | DYA QA → DYA build + GM（广播） |
+| `/sync myapp gm up` | myapp GM 汇总回传 → strategy |
+| `/sync myapp gm down` | strategy 指令 → myapp GM |
+| `/sync myapp build up` | myapp build 进度 → GM (或 strategy) |
+| `/sync myapp growth up` | myapp growth 数据 → GM (或 strategy) |
+| `/sync myapp build down` | GM/strategy 指令 → myapp build |
+| `/sync myapp growth down` | GM/strategy 指令 → myapp growth |
+| `/sync myapp build to growth` | myapp build → myapp growth（横向） |
+| `/sync myapp qa broadcast` | myapp QA → myapp build + GM（广播） |
 
 ### 批量同步
 
 | 指令 | 含义 |
 |------|------|
-| `/sync dya down` | GM/strategy 指令 → DYA **所有角色** |
-| `/sync prometheus down` | GM/strategy 指令 → Prometheus **所有角色** |
+| `/sync myapp down` | GM/strategy 指令 → myapp **所有角色** |
 | `/sync all down` | strategy 指令 → **所有 GM → 所有角色** |
 | `/sync all up` | **所有 GM** 汇总回传 → strategy |
 | `/sync all` | 全量双向同步 |
 
 ### 省略规则
 
-当前如果在 DYA workspace 下，`dya` 可以省略：
-- `/sync build up` = `/sync dya build up`
-- `/sync growth down` = `/sync dya growth down`
+在当前 workspace 的默认项目下，项目名可省略：
+- `/sync build up` = `/sync [默认项目] build up`
+- `/sync growth down` = `/sync [默认项目] growth down`
 
 `strategy` 永远是全局的，不需要项目前缀。
 
@@ -52,13 +47,13 @@ description: MUSE 角色文件之间的指令传递和数据回传
 ### 1. Strategy → GM（down）— v2.0 首选路径
 
 ```
-/sync dya gm down
+/sync myapp gm down
 ```
 
 我会：
 1. 读取 `.muse/strategy.md` 的「📡 战略指令队列」
-2. 找出所有标有 `→DYA/GM` 的未传递指令
-3. 写入 `DYA/.muse/gm.md` 的「📡 指令接收队列」
+2. 找出所有标有 `→[PROJECT]/GM` 的未传递指令
+3. 写入 `[project]/.muse/gm.md` 的「📡 指令接收队列」
 4. GM 接收后自行拆解分发到项目内角色
 5. 回到 strategy.md 标记「✅ 已传递」
 
@@ -67,41 +62,41 @@ description: MUSE 角色文件之间的指令传递和数据回传
 ### 1b. Strategy → 角色（down）— 向后兼容
 
 ```
-/sync dya build down
+/sync myapp build down
 ```
 
 当 GM 角色未启用时，或紧急情况下，仍可直接同步到角色：
 1. 读取 `.muse/strategy.md` 的「📡 战略指令队列」
-2. 找出所有标有 `→DYA/BUILD` 的未传递指令
-3. 写入 `DYA/.muse/build.md` 的「📡 接收战略指令」
+2. 找出所有标有 `→[PROJECT]/BUILD` 的未传递指令
+3. 写入 `[project]/.muse/build.md` 的「📡 接收战略指令」
 4. 回到 strategy.md 标记「✅ 已传递」
 
 ### 2. GM → Strategy（up）— v2.0 首选路径
 
 ```
-/sync dya gm up
+/sync myapp gm up
 ```
 
 我会：
-1. 读取 `DYA/.muse/gm.md` 的 GM 视角项目状态汇总
-2. 用「📡 数据回传 @STRATEGY (DYA/GM)」格式写入 `.muse/strategy.md`
+1. 读取 `[project]/.muse/gm.md` 的 GM 视角项目状态汇总
+2. 用「📡 数据回传 @STRATEGY ([PROJECT]/GM)」格式写入 `.muse/strategy.md`
 3. 在 gm.md 标记已回传
 
 ### 2b. 角色 → Strategy（up）— 向后兼容
 
 ```
-/sync prometheus build up
+/sync myapp build up
 ```
 
 当 GM 角色未启用时，角色可直接回传 strategy：
-1. 读取 `Prometheus/.muse/build.md` 中需要回传的进度/数据/请求
-2. 用「📡 数据回传 @STRATEGY (PROMETHEUS/BUILD)」格式写入 `.muse/strategy.md`
+1. 读取 `[project]/.muse/build.md` 中需要回传的进度/数据/请求
+2. 用「📡 数据回传 @STRATEGY ([PROJECT]/BUILD)」格式写入 `.muse/strategy.md`
 3. 在 build.md 标记已回传
 
 ### 3. 横向同步（to）
 
 ```
-/sync dya build to growth
+/sync myapp build to growth
 ```
 
 当 BUILD 和 GROWTH 之间需要互相同步信息时：
@@ -112,7 +107,7 @@ description: MUSE 角色文件之间的指令传递和数据回传
 ### 4. QA 广播（broadcast）
 
 ```
-/sync dya qa broadcast
+/sync myapp qa broadcast
 ```
 
 QA 验证完成后，将 QA Report 同时写入多个角色文件：
@@ -138,20 +133,20 @@ QA 验证完成后，将 QA Report 同时写入多个角色文件：
 
 Strategy 指令中标注目标项目和 GM：
 ```
-📡 S025→DYA/GM: V1.2.0 加入健康证明功能
-📡 S025→PROMETHEUS/GM: SDK v0.3.0 加入语音合成
+📡 S025→MYAPP/GM: V1.2.0 加入健康证明功能
+📡 S025→APPB/GM: SDK v0.3.0 加入语音合成
 📡 S025→ALL: 所有项目暂停新功能，集中修 Bug
 ```
 
 向后兼容（无 GM 时仍可直接指定角色）：
 ```
-📡 S025→DYA/BUILD: V1.2.0 加入健康证明功能
-📡 S025→DYA/GROWTH: 等 V1.2.0 上线后开始新一轮推广
+📡 S025→MYAPP/BUILD: V1.2.0 加入健康证明功能
+📡 S025→MYAPP/GROWTH: 等 V1.2.0 上线后开始新一轮推广
 ```
 
 GM 回传格式：
 ```
-📡 数据回传 @STRATEGY (DYA/GM 3/12 13:07):
+📡 数据回传 @STRATEGY (MYAPP/GM 3/12 13:07):
 > V1.1.1 Build 30 重新提审中。D7 窗口明天截止。
 > EP.03 分镜 16/20 完成。
 > Deck 已定稿，陆续发投资人。
@@ -159,7 +154,7 @@ GM 回传格式：
 
 角色回传格式（向后兼容）：
 ```
-📡 数据回传 @STRATEGY (DYA/BUILD 3/12 11:44):
+📡 数据回传 @STRATEGY (MYAPP/BUILD 3/12 11:44):
   ✅ V1.1.1 Build 31 已提交审核
 ```
 
@@ -167,29 +162,29 @@ GM 回传格式：
 
 ## 多项目场景完整用例
 
-假设你有 3 个项目（DYA、Prometheus、ProjectC）：
+假设你有 3 个项目（AppA、AppB、AppC）：
 
 **Strategy 做了跨项目决策**：
 ```
 你: /resume strategy
-（做出决策 S030→DYA/BUILD + S030→PROMETHEUS/GROWTH + S030→PROJECTC/BUILD）
+（做出决策 S030→APPA/BUILD + S030→APPB/GROWTH + S030→APPC/BUILD）
 你: /sync all down
 → Agent 自动分发到 3 个项目的对应角色文件
 ```
 
-**DYA build 完成开发，要通知 strategy + growth**：
+**AppA build 完成开发，要通知 strategy + growth**：
 ```
-你: /resume dya build
+你: /resume appa build
 （完成开发）
-你: /sync dya build up          ← 进度回传 strategy
-你: /sync dya build to growth   ← 通知 growth 可以开始推广
+你: /sync appa build up          ← 进度回传 strategy
+你: /sync appa build to growth   ← 通知 growth 可以开始推广
 ```
 
-**Prometheus QA 发现 bug**：
+**AppB QA 发现 bug**：
 ```
-你: /resume prometheus qa
+你: /resume appb qa
 （验证发现 bug）
-你: /sync prometheus qa broadcast  ← 广播到 prometheus build + strategy
+你: /sync appb qa broadcast  ← 广播到 appb build + strategy
 ```
 
 **新对话想看全局状态**：
@@ -207,5 +202,5 @@ GM 回传格式：
 - 如果没有新指令/回传，会告知「无新内容需要同步」
 - 横向同步必须同时通知 STRATEGY（或 GM），保持全局视角
 - **所有跨项目同步都在 strategy 对话中执行**（strategy 是全局中枢）
-- **向后兼容**：`/sync strategy down` = `/sync dya down`（当前 workspace 默认 DYA）
-- **GM 优先**: v2.0 有 GM 时，优先通过 GM 中转；无 GM 时回退到 v1 直接同步
+- **省略规则**：当前 workspace 默认项目可省略项目名
+- **GM 优先**: 有 GM 时，优先通过 GM 中转；无 GM 时回退到直接同步

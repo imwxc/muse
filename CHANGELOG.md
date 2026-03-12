@@ -1,4 +1,22 @@
 # Changelog
+## [2.5.0] - 2026-03-12
+
+### Added
+- **Ecosystem Packs** — 7 optional technology-specific skill packs (13 skills):
+  - `react-nextjs` (3): react-best-practices, frontend-patterns, vercel-react-best-practices
+  - `backend-database` (3): backend-patterns, postgres-patterns, database-reviewer
+  - `expo-mobile` (3): expo-app-design, expo-deployment, upgrading-expo
+  - `javascript-typescript` (1): javascript-typescript
+  - `vercel` (1): vercel-deploy-claimable
+  - `remotion` (1): remotion-best-practices
+  - `web-artifacts` (1): web-artifacts-builder
+- **New Toolkit skill**: `coding-standards` (universal coding standards for JS/TS/React/Node.js)
+- Skill totals: 4 Core + 37 Toolkit + 13 Ecosystem = **54 skills**
+
+### Fixed
+- Cleaned DYA-specific references from `database-reviewer`
+- Fixed merge conflict markers in `coding-standards`
+
 ## [2.4.1] - 2026-03-12
 
 ### Added

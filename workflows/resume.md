@@ -11,6 +11,7 @@ description: Standard procedure for restoring project context at the start of a 
 ```
 ① CLAUDE.md + MEMORIES.md  → Constitution + long-term lessons (auto-injected)
 ② memory/today.md + yesterday.md → Short-term memory (recent events)
+②.5 Scan memory `➡️ Next Steps` for 🔲 unchecked items → proactively remind if found
 ③ Cross-day task? grep_search memory/ for keywords → locate earlier memories
 ④ USER.md                  → User preferences
 ⑤ Matching .muse/ role file → Full progress (based on command)
@@ -57,8 +58,11 @@ For multi-project setups, prefix with project name:
 After reading the role file, the agent will:
 1. Read `memory/YYYY-MM-DD.md` (today + yesterday) for quick context
 2. Read the specified `.muse/` role file for full progress
+2.7 **Role file bloat check**: `wc -l` target .muse/ file. **> 800 lines → archive completed work to .muse/archive/ first** (target ≤500 lines)
 3. **If `/resume build`**: auto-check `.muse/qa.md` for unresolved ❌ FAILs → fix first
 4. **If `/resume strategy`**: check memory/ for un-synced critical events (grep: rejected/approved/deployed/funded/resubmit)
+4.1 **Conflict resolution**: When memory and role file data conflict, **role file takes precedence** (memory is a point-in-time snapshot; role files are continuously updated). Resume reports should only cite role file data; memory is used only to discover gaps
+4.2 **Internal consistency check**: Before outputting the resume report, cross-check that the same fact is consistent across all locations within the role file (e.g., funding table / decision table / todo list / directive queue should not have contradictory statuses for the same item)
 5. Only suggest next actions within that role's scope
 6. Read relevant code/docs as needed
 

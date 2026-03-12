@@ -23,6 +23,11 @@ description: One-click conversation wrap-up. Auto-summarize, sync role files, sa
 
 Update the relevant `.muse/[role].md` file with this session's progress.
 
+**Triple cross-check before sync:**
+- ① **Cross-file consistency**: memory entries vs .muse/ files — confirm all critical events are synced
+- ② **Intra-file consistency**: same item should have consistent status across funding table, decision table, todo list, and directive queue
+- ③ **Memory retroactive correction**: if this session corrected old info (e.g. date postponed, status changed), also update prior memory entries to avoid stale snapshots on next resume
+
 **Mandatory sync rules based on conversation type:**
 - Dev conversation → **must** sync build up
 - Growth conversation → **must** sync growth up
@@ -55,7 +60,14 @@ The user can:
 - ⏭️ Skip → no export
 - If context was critically low (🔴), auto-append `_CRASH` suffix
 
-### 4.5. Auto-Distill Detection
+### 4.5. Role File Bloat Check
+
+Every `/bye` silently checks role file sizes:
+1. Run `wc -l .muse/*.md`
+2. **Trigger**: Any role file > 800 lines
+3. **Action**: Warn user: "⚠️ .muse/[file] reached N lines (target ≤500), suggest archiving history to .muse/archive/"
+4. **No trigger**: Skip silently
+### 4.6. Auto-Distill Detection
 
 Check `memory/` accumulation:
 

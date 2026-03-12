@@ -1,4 +1,14 @@
 # Changelog
+## [2.4.1] - 2026-03-12
+
+### Added
+- **10 more toolkit skills** (total: 4 Core + 35 Toolkit = 39 skills)
+  - `api-design-principles`, `dispatching-parallel-agents`, `doc-coauthoring`
+  - `markitdown`, `using-git-worktrees`, `theme-factory`
+  - `github-pr-merge`, `doc-updater`, `e2e-runner`, `subagent-driven-development`, `ralph-wiggum`
+
+### Fixed
+- Cleaned DYA-specific references from `doc-updater` and `e2e-runner`
 ## [2.4.0] - 2026-03-12
 
 ### Added

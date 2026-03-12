@@ -34,7 +34,19 @@ Inspired by the [LCM (Lossless Context Management)](https://papers.voltropy.com/
 
 ## 🚀 Quick Start (5 minutes)
 
-### 1. Copy files to your project root
+### Option A: Interactive Setup (Recommended)
+
+```bash
+# Clone MUSE
+git clone https://github.com/myths-labs/muse.git
+
+# Run interactive setup — configures language, model, and preferences
+cd muse && ./setup.sh
+```
+
+The setup wizard will ask for your language, AI model, and docs preferences, then configure everything automatically.
+
+### Option B: Manual Setup
 
 ```bash
 # Clone MUSE
@@ -85,11 +97,7 @@ This is MUSE's core — the AI's "constitution". Edit to match your project:
 6. End conversations with /bye
 ```
 
-### 3. Set your preferences in `USER.md`
-
-Set your language, preferred AI model, and code conventions.
-
-### 4. Start using
+### 3. Start using
 
 ```
 You: /resume           ← AI reads constitution → reads memory → starts work

@@ -1,10 +1,10 @@
 ---
-description: Boot sequence for restoring project context at conversation start
+description: Standard procedure for restoring project context at the start of a new conversation
 ---
 
 ## 🚨 Rule Zero
 
-**Read one role file, discuss only that role's scope.** Don't discuss marketing in a dev conversation, or code in a marketing conversation.
+**Read one role file, discuss only that role's scope.** Never discuss marketing in a dev conversation, or code in a marketing conversation.
 
 ## Boot Sequence (MUSE Context Assembly — execute in order each new conversation)
 
@@ -16,7 +16,7 @@ description: Boot sequence for restoring project context at conversation start
 ⑤ Matching .muse/ role file → Full progress (based on command)
 ```
 
-> ③ only runs when task spans > 2 days (≈ LCM lcm_grep deep retrieval)
+> ③ Only runs when task spans > 2 days (≈ LCM lcm_grep deep retrieval)
 
 ### Resume Commands
 
@@ -50,11 +50,15 @@ For multi-project setups, prefix with project name:
 /resume fundraise  → .muse/fundraise.md
 ```
 
+**Legacy aliases** (auto-mapped):
+- `/resume status` → `/resume build`
+- `/resume marketing` → `/resume growth`
+
 After reading the role file, the agent will:
 1. Read `memory/YYYY-MM-DD.md` (today + yesterday) for quick context
 2. Read the specified `.muse/` role file for full progress
 3. **If `/resume build`**: auto-check `.muse/qa.md` for unresolved ❌ FAILs → fix first
-4. **If `/resume strategy`**: check memory/ for un-synced critical events (grep: rejected/approved/deployed/funded)
+4. **If `/resume strategy`**: check memory/ for un-synced critical events (grep: rejected/approved/deployed/funded/resubmit)
 5. Only suggest next actions within that role's scope
 6. Read relevant code/docs as needed
 

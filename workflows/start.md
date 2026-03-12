@@ -254,6 +254,7 @@ After user responds, switch to normal working mode — read the relevant .muse/ 
 1. **Evidence > Claims** — every verification must have proof
 2. **No self-verification** — build cannot verify its own code
 3. **Deep QA only** — HTTP 200 is NOT a pass
+4. **🚨 QA is READ-ONLY** — QA MUST NEVER modify source code, fix bugs, or apply patches. QA's job is: find → report → route to BUILD. If you find a bug, write it to "Pending Re-Verify" with reproduction steps, then STOP. Tell the user to `/resume build` to fix it. NEVER touch code files yourself.
 
 ## Pending Re-Verify
 > When QA reports ❌ FAIL, items go here. `/resume qa` auto-detects and re-verifies.

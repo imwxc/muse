@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.8.0] - 2026-03-13
+
+### Added
+- **Multi-tool installer** (`scripts/install.sh`) — One command to install MUSE on any supported AI coding tool:
+  - **Claude Code / OpenClaw**: `.agent/skills/` + `CLAUDE.md` (native format)
+  - **Cursor**: `.cursor/rules/*.mdc` (YAML frontmatter with `alwaysApply`)
+  - **Windsurf**: `.windsurf/rules/*.md` (activation comments)
+  - **Gemini CLI**: `.gemini/skills/` + `GEMINI.md` (native skill format)
+  - **Codex CLI**: `AGENTS.md` (single concatenated file)
+- Auto-detection of installed tools (`--list`)
+- Interactive + CLI modes (`--tool`, `--target`, `--core-only`)
+- README.md + README_CN.md: Added tool support table and multi-tool quick start (Option B)
+
 ## [2.7.2] - 2026-03-13
 
 ### Fixed

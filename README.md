@@ -9,7 +9,7 @@
 <p align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/myths-labs/muse/blob/main/LICENSE)
-[![Version](https://img.shields.io/badge/version-2.7.2-blue.svg)](https://github.com/myths-labs/muse/blob/main/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.8.0-blue.svg)](https://github.com/myths-labs/muse/blob/main/CHANGELOG.md)
 [![Stars](https://img.shields.io/github/stars/myths-labs/muse?style=social)](https://github.com/myths-labs/muse)
 [![Pure Markdown](https://img.shields.io/badge/pure-markdown-green.svg)](#)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg)](#)
@@ -379,6 +379,6 @@ MIT © [Myths Labs](https://github.com/myths-labs)
 </p>
 
 <p align="center">
-  <i>MUSE v2.7.2</i>
+  <i>MUSE v2.8.0</i>
 </p>
 

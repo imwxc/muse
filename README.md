@@ -51,7 +51,15 @@ Inspired by the [LCM (Lossless Context Management)](https://papers.voltropy.com/
 | Cross-day tasks lose continuity | `grep memory/` auto-searches history |
 | Same mistakes repeated | `/distill` distills lessons to long-term memory |
 
-**Works with**: Claude Code, Cursor, Windsurf, or any AI tool that supports system prompts / project rules.
+**Works with**: Claude Code · OpenClaw · Cursor · Windsurf · Gemini CLI · Codex CLI — or any AI tool that supports system prompts.
+
+| Tool | Install Command | Format |
+|------|----------------|--------|
+| Claude Code / OpenClaw | `./scripts/install.sh --tool claude` | `.agent/skills/` + `CLAUDE.md` |
+| Cursor | `./scripts/install.sh --tool cursor` | `.cursor/rules/*.mdc` |
+| Windsurf | `./scripts/install.sh --tool windsurf` | `.windsurf/rules/*.md` |
+| Gemini CLI | `./scripts/install.sh --tool gemini` | `.gemini/skills/` + `GEMINI.md` |
+| Codex CLI | `./scripts/install.sh --tool codex` | `AGENTS.md` (single file) |
 
 ---
 
@@ -69,7 +77,22 @@ cd muse && ./setup.sh
 
 The setup wizard will ask for your language, AI model, and docs preferences, then configure everything automatically.
 
-### Option B: Manual Setup
+### Option B: Multi-Tool Install (Cursor / Windsurf / Gemini CLI / Codex CLI)
+
+```bash
+# Clone MUSE
+git clone https://github.com/myths-labs/muse.git
+
+# Install for your tool (auto-converts to the right format)
+cd muse && ./scripts/install.sh --tool cursor --target /path/to/your-project
+
+# Or auto-detect installed tools
+./scripts/install.sh --target /path/to/your-project
+```
+
+Supported: `claude`, `openclaw`, `cursor`, `windsurf`, `gemini`, `codex`, or `all`.
+
+### Option C: Manual Setup
 
 ```bash
 # Clone MUSE
@@ -320,7 +343,7 @@ Add GM + all roles + sync:
 No. MUSE is pure Markdown files. Copy them to your project and you're ready. Zero dependencies.
 
 **Q: Which AI tools does it support?**
-Any tool that supports system prompts / project rules: Claude Code (`CLAUDE.md`), Cursor (`.cursorrules`), Windsurf, Copilot, etc.
+Six tools with native install support: **Claude Code**, **OpenClaw**, **Cursor**, **Windsurf**, **Gemini CLI**, and **Codex CLI**. Run `./scripts/install.sh --tool <name>` to install in the correct format for each tool. Any other tool that reads Markdown project rules will also work with manual setup.
 
 **Q: How is this different from lossless-claw?**
 lossless-claw is a code plugin (SQLite + DAG + sub-agents) that requires the OpenClaw runtime. MUSE is pure Markdown SOPs, works with any AI tool, zero dependencies. Same principles, different implementation.

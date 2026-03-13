@@ -130,6 +130,33 @@ if [ "$skills_choice" != "3" ]; then
   fi
 fi
 
+# ─── AI Tool Detection ───
+echo ""
+echo "6. Which AI coding tool are you using?"
+echo "   [1] Claude Code / OpenClaw (default — no conversion needed)"
+echo "   [2] Cursor"
+echo "   [3] Windsurf"
+echo "   [4] Gemini CLI"
+echo "   [5] Codex CLI"
+echo "   [6] Multiple / auto-detect"
+echo ""
+read -p "   Choice [1]: " tool_choice
+tool_choice=${tool_choice:-1}
+
+INSTALL_SCRIPT="$SCRIPT_DIR/scripts/install.sh"
+if [ -f "$INSTALL_SCRIPT" ] && [ "$tool_choice" != "1" ]; then
+  case $tool_choice in
+    2) "$INSTALL_SCRIPT" --tool cursor --target "$TARGET_DIR" ;;
+    3) "$INSTALL_SCRIPT" --tool windsurf --target "$TARGET_DIR" ;;
+    4) "$INSTALL_SCRIPT" --tool gemini --target "$TARGET_DIR" ;;
+    5) "$INSTALL_SCRIPT" --tool codex --target "$TARGET_DIR" ;;
+    6) "$INSTALL_SCRIPT" --tool all --target "$TARGET_DIR" ;;
+    *) ;; # skip
+  esac
+elif [ "$tool_choice" = "1" ]; then
+  echo "   ✅ Claude Code / OpenClaw — no conversion needed"
+fi
+
 # ─── Apply Preferences ───
 echo ""
 echo "Applying preferences..."

@@ -165,6 +165,7 @@ graph TB
 | `/distill` | 蒸馏 memory/ → MEMORIES.md | 无需输入 |
 | `/sync [方向]` | 多角色跨文件同步 | 方向（可选） |
 | `/sync receive` | 对话中拉取其他角色的更新 | 无需输入 |
+| `/resume [项目] qa` | 启动 QA 验证（独立于 build） | 项目名（可选） |
 | `/resume crash` | 上下文爆掉后恢复 | 无需输入 |
 
 ### 防御式自动保存（L0 防御）

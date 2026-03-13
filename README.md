@@ -209,6 +209,7 @@ graph TB
 | `/distill` | Condense `memory/` → `MEMORIES.md` | None needed |
 | `/sync [direction]` | Cross-file sync in multi-role setup | Direction (optional) |
 | `/sync receive` | Pull updates from other roles mid-conversation | None needed |
+| `/resume [project] qa` | Start QA verification (independent from build) | Project name (optional) |
 | `/resume crash` | Recover from context blowout | None needed |
 
 ### Defensive Auto-Save (L0 Defense)

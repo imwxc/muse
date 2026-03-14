@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.10.2] - 2026-03-14
+
+### Fixed
+- **`/bye` Step 1 context-degradation memory loss** — Root cause: Agent only remembers last ~20% of long sessions, causing `/bye` to write incomplete memory (e.g. 4-line summary for a 1469-line session). New mandatory safeguards:
+  - Tool call inventory before writing memory (code edits / commands / file reads / user rounds)
+  - High-risk detection: ≥10 rounds or ≥20 tool calls triggers full-conversation review
+  - User statements override Agent inference ("user deleted X" ≠ "auto-fix will handle X")
+  - Long sessions (≥10 rounds) must write memory grouped by time segment, not just 3-5 lines
+
 ## [2.10.1] - 2026-03-14
 
 ### Fixed

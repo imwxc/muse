@@ -15,4 +15,4 @@ package-lock.json
 package.json
 
 # Internal docs (not for open-source)
-docs/MUSE_LAUNCH_CONTENT.md
+docs/internal/

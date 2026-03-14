@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.10.1] - 2026-03-14
+
+### Fixed
+- **`/resume` Step 2.5 cross-role mixing** — Pending items from other roles/projects no longer contaminate current role's recommendation list. Items now grouped: ① current role's items in main list ② other roles in separate `⚠️ Other Roles` section with `[ROLE]` tags
+- **`/bye` Step 3.5 stale todo checkboxes** — New mandatory step: sync must update `[ ]` → `[x]` for completed items in `.muse/` files. Previously, sync only wrote summaries but never flipped checkboxes, causing next `/resume` to show completed work as pending
+
 ## [2.10.0] - 2026-03-14
 
 ### Added

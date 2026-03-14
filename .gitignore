@@ -13,3 +13,6 @@ MEMORIES.md
 node_modules/
 package-lock.json
 package.json
+
+# Internal docs (not for open-source)
+docs/MUSE_LAUNCH_CONTENT.md

@@ -438,7 +438,7 @@
         for (const p of particles) {
           const breath = Math.sin(t * p.breathSpeed + p.breathOffset);
           const alpha = p.baseAlpha + breath * p.baseAlpha * 0.7;
-          const glow = p.r + breath * 0.6;
+          const glow = Math.max(0.1, p.r + breath * 0.6);
 
           // Outer glow
           const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glow * 4);

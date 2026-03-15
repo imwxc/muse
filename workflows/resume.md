@@ -14,7 +14,8 @@ description: 新对话开始时恢复项目上下文的标准流程
 ②.5 扫描 memory `➡️ 下一步` 中的 🔲 项 → 有未完成项则主动提醒
 ③ 跨天任务? grep_search memory/ 搜索任务关键词 → 定位更早的相关记忆
 ④ USER.md                  → 用户偏好
-⑤ 对应 .muse/ 角色文件     → 完整进度（按指令决定读哪个）
+④.5 🆕 grep "<!-- L0:" .muse/*.md → 一行扫描所有角色状态（~400 tokens）
+⑤ 对应 .muse/ 角色文件     → 深读当前角色完整进度（L1）
 ⑥ 🚨 strategy.md 指令拉取  → 非 strategy 角色自动 grep 活跃指令（→BUILD / →GROWTH 等）
 ```
 

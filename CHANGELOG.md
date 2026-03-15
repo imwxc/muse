@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.11.0] - 2026-03-15
+
+### Added
+- **L0 Layered Context Loading** — OpenViking-inspired three-layer protocol (`skills/core/layered-context/SKILL.md`):
+  - Every `.muse/*.md` file now has a `<!-- L0: ... -->` one-line summary (first line)
+  - `/resume` boot sequence: new Step ④.5 scans all L0 lines (~400 tokens) before deep-reading current role
+  - Decision tree: L0 (quick answer) → L1 (full role file) → L2 (memory/grep on demand)
+- **Enhanced `/distill` workflow** — mem0 + Supermemory-inspired improvements:
+  - Structured extraction: `[FACT]` / `[DECISION]` / `[LESSON]` / `[TODO]` tags for every memory entry
+  - Deduplication detection: ADD / UPDATE / NOOP against existing MEMORIES.md (from mem0's consolidation pipeline)
+  - Decay detection: 30-day TTL → `[DECAY]` flag for stale entries (from Supermemory's smart forgetting)
+  - Token budget: MEMORIES.md target ≤3000 tokens (~2250 words)
+
+### Fixed
+- **Skill count** — CHANGELOG v2.5.0 entry corrected from "54 skills" to "48 skills" (actual: 4 Core + 7 Ecosystem + 37 Toolkit)
+
 ## [2.10.2] - 2026-03-14
 
 ### Fixed
@@ -133,7 +149,7 @@
   - `remotion` (1): remotion-best-practices
   - `web-artifacts` (1): web-artifacts-builder
 - **New Toolkit skill**: `coding-standards` (universal coding standards for JS/TS/React/Node.js)
-- Skill totals: 4 Core + 37 Toolkit + 13 Ecosystem = **54 skills**
+- Skill totals: 4 Core + 37 Toolkit + 7 Ecosystem = **48 skills**
 
 ### Fixed
 - Cleaned DYA-specific references from `database-reviewer`

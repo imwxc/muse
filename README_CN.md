@@ -9,7 +9,7 @@
 <p align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/myths-labs/muse/blob/main/LICENSE)
-[![Version](https://img.shields.io/badge/version-2.10.0-blue.svg)](https://github.com/myths-labs/muse/blob/main/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.15.0-blue.svg)](https://github.com/myths-labs/muse/blob/main/CHANGELOG.md)
 [![Stars](https://img.shields.io/github/stars/myths-labs/muse?style=social)](https://github.com/myths-labs/muse)
 [![Pure Markdown](https://img.shields.io/badge/pure-markdown-green.svg)](#)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg)](#)
@@ -278,6 +278,40 @@ project/
 
 ---
 
+## 🔌 MCP 服务器（Claude 插件）
+
+MUSE 内置 **MCP (Model Context Protocol) 服务器** — 纯 Bash 零依赖实现，让 Claude Code、Cursor 等工具通过标准协议访问项目的角色文件、记忆和指令。
+
+### 可用工具
+
+| 工具 | 说明 |
+|------|------|
+| `muse_get_status` | 读取所有 L0 行 → 项目概览 (~400 tokens) |
+| `muse_list_roles` | 列出所有角色文件 |
+| `muse_get_role` | 深读指定角色文件 |
+| `muse_send_directive` | 发送 📡 跨角色指令 |
+| `muse_write_memory` | 追加到今日记忆 |
+| `muse_search_memory` | 搜索记忆文件 |
+
+### 配置
+
+添加到工具的 MCP 配置中（如 `~/.config/claude/claude_desktop_config.json`）：
+
+```json
+{
+  "mcpServers": {
+    "muse": {
+      "command": "/path/to/muse/scripts/mcp-server.sh",
+      "args": ["--project-root", "/path/to/your/project"]
+    }
+  }
+}
+```
+
+> **依赖**: `jq`（macOS: `brew install jq`，Linux: `apt install jq`）
+
+---
+
 ## 🤔 FAQ
 
 **Q: MUSE（缪斯）需要安装吗？**
@@ -323,5 +357,5 @@ MIT © [Myths Labs](https://github.com/myths-labs)
 </p>
 
 <p align="center">
-  <i>MUSE v2.14.0</i>
+  <i>MUSE v2.15.0</i>
 </p>

@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.15.0] - 2026-03-15
+
+### Added
+- **MCP Server** (`scripts/mcp-server.sh`) — Zero-dependency Bash MCP server implementing the Agent Protocol spec:
+  - JSON-RPC 2.0 over stdio (no Node.js/Python required, only `jq`)
+  - 6 tools: `muse_get_status`, `muse_list_roles`, `muse_get_role`, `muse_send_directive`, `muse_write_memory`, `muse_search_memory`
+  - Works with Claude Code, Cursor, Gemini CLI, or any MCP-compatible client
+  - Auto-detects project root from script location
+  - Security: path traversal protection, sandboxed to `.muse/` + `memory/` directories
+- **MCP Config Template** (`scripts/mcp-config.json`) — Drop-in configuration for MCP clients
+
 ## [2.14.0] - 2026-03-15
 
 ### Added

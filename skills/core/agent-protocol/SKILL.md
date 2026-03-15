@@ -162,16 +162,28 @@ For users managing multiple projects:
 
 ### For MCP Servers
 
-An MCP server implementing MUSE protocol should expose:
+An MCP server implementing MUSE protocol is **included** — see `scripts/mcp-server.sh` (added in v2.15.0).
 
-| Tool | Description |
-|------|-------------|
-| `muse_get_status` | Read all L0 lines → return project status |
-| `muse_get_role` | Read a specific role file (L1) |
-| `muse_send_directive` | Create a 📡 directive in the sender's role file |
-| `muse_pickup_directives` | Scan for and receive 🟡 directives |
-| `muse_write_memory` | Append to today's memory file |
-| `muse_auto_capture` | Extract LESSON/DECISION/FACT → MEMORIES.md |
+| Tool | Description | Status |
+|------|-------------|:------:|
+| `muse_get_status` | Read all L0 lines → return project status | ✅ |
+| `muse_list_roles` | List role files with summaries | ✅ |
+| `muse_get_role` | Read a specific role file (L1) | ✅ |
+| `muse_send_directive` | Create a 📡 directive in a role file | ✅ |
+| `muse_write_memory` | Append to today's memory file | ✅ |
+| `muse_search_memory` | Search across memory files + MEMORIES.md | ✅ |
+
+**Configuration**: Add to your MCP client config:
+```json
+{
+  "mcpServers": {
+    "muse": {
+      "command": "/path/to/muse/scripts/mcp-server.sh",
+      "args": ["--project-root", "/path/to/project"]
+    }
+  }
+}
+```
 
 ### For CLI Tools
 
@@ -196,4 +208,6 @@ wc -l .muse/*.md
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v1.1 | 2026-03-15 | MCP server implemented (`scripts/mcp-server.sh`) |
 | v1.0 | 2026-03-15 | Initial spec (Batch 2) |
+

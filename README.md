@@ -9,7 +9,7 @@
 <p align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/myths-labs/muse/blob/main/LICENSE)
-[![Version](https://img.shields.io/badge/version-2.10.0-blue.svg)](https://github.com/myths-labs/muse/blob/main/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.15.0-blue.svg)](https://github.com/myths-labs/muse/blob/main/CHANGELOG.md)
 [![Stars](https://img.shields.io/github/stars/myths-labs/muse?style=social)](https://github.com/myths-labs/muse)
 [![Pure Markdown](https://img.shields.io/badge/pure-markdown-green.svg)](#)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg)](#)
@@ -348,6 +348,47 @@ Add GM + all roles + sync:
 
 ---
 
+## 🔌 MCP Server (Claude Plugin)
+
+MUSE includes a built-in **MCP (Model Context Protocol) server** — a zero-dependency Bash implementation that lets Claude Code, Cursor, and other tools access your project's role files, memory, and directives through a standard protocol.
+
+### Quick Setup
+
+```bash
+# From your MUSE-enabled project
+./scripts/mcp-server.sh --help
+```
+
+### Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `muse_get_status` | Read all L0 lines → project overview (~400 tokens) |
+| `muse_list_roles` | List all role files with summaries |
+| `muse_get_role` | Deep-read a specific role file |
+| `muse_send_directive` | Send 📡 cross-role directive |
+| `muse_write_memory` | Append to today's memory log |
+| `muse_search_memory` | Search across memory files |
+
+### Configuration
+
+Add to your tool's MCP config (e.g., `~/.config/claude/claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "muse": {
+      "command": "/path/to/muse/scripts/mcp-server.sh",
+      "args": ["--project-root", "/path/to/your/project"]
+    }
+  }
+}
+```
+
+> **Requires**: `jq` (`brew install jq` on macOS, `apt install jq` on Linux)
+
+---
+
 ## 🤔 FAQ
 
 **Q: Does MUSE require installation?**
@@ -391,6 +432,6 @@ MIT © [Myths Labs](https://github.com/myths-labs)
 </p>
 
 <p align="center">
-  <i>MUSE v2.14.0</i>
+  <i>MUSE v2.15.0</i>
 </p>
 

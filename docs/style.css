@@ -2,9 +2,11 @@
 
 :root {
   --bg-primary: #0a0a0f;
+  --bg-primary-alpha: rgba(10, 10, 15, 0.88);
   --bg-secondary: #111118;
-  --bg-card: #16161f;
-  --bg-card-hover: #1c1c28;
+  --bg-secondary-alpha: rgba(17, 17, 24, 0.9);
+  --bg-card: rgba(22, 22, 31, 0.85);
+  --bg-card-hover: rgba(28, 28, 40, 0.9);
   --text-primary: #e8e6f0;
   --text-secondary: #9896a8;
   --text-muted: #6b6980;
@@ -20,6 +22,16 @@
   --radius-sm: 8px;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+#starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 *,
@@ -58,6 +70,13 @@ body {
   background: rgba(10, 10, 15, 0.85);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
+}
+
+.section,
+.hero,
+.footer {
+  position: relative;
+  z-index: 1;
 }
 
 .nav-inner {
@@ -305,7 +324,7 @@ body {
 }
 
 .section-dark {
-  background: var(--bg-secondary);
+  background: var(--bg-secondary-alpha);
 }
 
 .section-title {
@@ -423,6 +442,7 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   transition: all 0.3s;
+  backdrop-filter: blur(8px);
 }
 
 .feature-card:hover {

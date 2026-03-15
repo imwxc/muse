@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.12.0] - 2026-03-15
+
+### Added
+- **Auto Memory Capture** (`/bye` Step 4.7) — Supermemory + claude-mem-inspired real-time knowledge extraction:
+  - Automatically extracts `[LESSON]` / `[DECISION]` / `[FACT]` entries from session work summaries at `/bye` time
+  - Dedup check against existing MEMORIES.md (ADD / UPDATE / NOOP)
+  - Token budget guard: skips capture if MEMORIES.md exceeds 2250 words
+  - Guardrails: max 5 entries per session, no TODO capture (handled by role files)
+  - `/bye` Step 6 output now includes `📸 Auto-capture` feedback line
+- **Agent Protocol Specification** (`skills/core/agent-protocol/SKILL.md`) — MemOS-inspired machine-readable role file protocol:
+  - Formalizes L0 header, section semantics, directive protocol (📡), memory protocol, and isolation rules
+  - MCP server integration points: `muse_get_status`, `muse_send_directive`, `muse_auto_capture`, etc.
+  - CLI and IDE plugin integration patterns
+  - Multi-project cross-role communication spec
+  - Core skill count: 4 → 5 (layered-context + **agent-protocol**)
+
 ## [2.11.0] - 2026-03-15
 
 ### Added

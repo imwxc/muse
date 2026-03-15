@@ -13,6 +13,11 @@ description: Condense memory/ daily logs into long-term MEMORIES.md lessons
 - After completing a major milestone
 - After a series of debugging sessions with repeated patterns
 
+### Relationship with Auto Capture (v2.12.0+)
+> `/bye` Step 4.7 **Auto Capture** extracts `[LESSON]/[DECISION]/[FACT]` in real-time at session end.
+> `/distill` is the **batch complement** — periodic full-scan with decay detection, token budget rebalancing, and overflow archiving.
+> **Both coexist**: Auto Capture = incremental (every `/bye`), Distill = comprehensive (weekly/on-demand).
+
 ## Scope Control
 
 | Command | Scope | Description |

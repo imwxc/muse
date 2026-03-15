@@ -166,6 +166,53 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
    ```
 5. **不触发时**：静默跳过，不打扰用户
 
+### 4.7 🆕 自动记忆捕获 (Auto Capture)
+
+> Inspired by Supermemory Auto Capture + claude-mem automatic compression.
+> 本轮新增 (v2.12.0 Batch 2) — 在 session 结束时自动提取可复用知识，无需手动 `/distill`。
+
+**每次 /bye 都执行**（紧接 Step 4 memory 写入后）：
+
+#### Why
+`/distill` 是批量蒸馏（每周跑一次），但高价值知识在产生时就应捕获。
+Auto Capture = **实时提取** — 每次 `/bye` 都把本轮产生的关键知识写入 `MEMORIES.md`，不等积累。
+
+#### How
+
+1. **从 Step 1 的工作摘要中提取**（不重新扫描对话）：
+   - 🔍 筛选出属于以下 3 类的条目：
+     | Type | Tag | Capture 条件 | Example |
+     |------|-----|-------------|---------|
+     | `[LESSON]` | 错误/教训/发现 | 犯了错并修复 / 发现了反直觉的规律 | "小红书对自推广型限流" |
+     | `[DECISION]` | 重要决策 | 有明确的选择+理由+替代方案被否决 | "Show HN 暂缓 — T3 先进化" |
+     | `[FACT]` | 关键数据 | 数值/基准线/benchmarks 首次获得 | "mem0 比 OpenAI Memory 省 90% token" |
+
+   - ❌ **不要捕获**: 常规工作完成记录（这些已在 Step 4 memory 中）、临时性待办（这些在角色文件中）
+
+2. **Dedup Check**（防重复）：
+   - `grep` 检查 `MEMORIES.md` 是否已有相同/相似条目
+   - 已有 → **NOOP**（跳过）或 **UPDATE**（合并新数据）
+   - 没有 → **ADD**（追加到对应 section）
+
+3. **写入 MEMORIES.md**：
+   - 追加到对应主题 section（找最匹配的已有 section，或新建）
+   - 格式：
+     ```markdown
+     - **[TAG] Description** (source: memory/YYYY-MM-DD.md, auto-captured) 
+     ```
+   - ⚠️ **Token 预算检查**：写入后 `wc -w MEMORIES.md`，超过 2250 words 则跳过本次 capture，在 Step 6 提醒用户先 `/distill` 压缩
+
+4. **静默 vs 提醒**：
+   - 捕获了 ≥1 条 → Step 6 输出中加 `📸 Auto-captured N entries to MEMORIES.md`
+   - 捕获了 0 条（本轮无高价值知识）→ 静默跳过
+   - Token 超预算 → Step 6 输出 `⚠️ MEMORIES.md 已满 (N/2250 words)，请先 /distill`
+
+#### Guardrails
+- **每次 /bye 最多捕获 5 条**（防止膨胀）
+- **只捕获 LESSON/DECISION/FACT**（TODO 不捕获 — 已在角色文件中追踪）
+- **捕获 ≠ 替代 /distill** — Auto Capture 是实时增量，`/distill` 是定期全量压缩+衰减检测
+- **不修改 memory/ 文件** — Auto Capture 只读 Step 1 摘要 + 写 MEMORIES.md
+
 ### 5. 对话存档引导
 
 > [!CAUTION]
@@ -215,6 +262,7 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
 ✅ /bye 完成
 - 同步: [列出同步了哪些 .muse/ 文件]
 - 记忆: memory/YYYY-MM-DD.md 已更新
+- 📸 Auto-capture: [N entries → MEMORIES.md / 无新知识 / ⚠️ 已满]
 - 导出: convo/YYMMDD/YYMMDD-NN-desc.md（请手动导出）
 ```
 

@@ -120,6 +120,22 @@ body {
   color: var(--text-primary);
 }
 
+.nav-dashboard-link {
+  background: rgba(201, 168, 76, 0.1) !important;
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  padding: 5px 14px;
+  border-radius: 20px;
+  color: var(--gold) !important;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.nav-dashboard-link:hover {
+  background: rgba(201, 168, 76, 0.2) !important;
+  border-color: rgba(201, 168, 76, 0.4);
+  color: var(--gold-light) !important;
+}
+
 .nav-toggle {
   display: none;
   background: none;

@@ -455,6 +455,12 @@
             color: var(--text-dim);
             line-height: 1.5;
             margin-bottom: 10px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            word-break: break-word;
         }
 
         .role-meta {
@@ -602,7 +608,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header" id="upload-section">
-            <h1>🎭 Your MUSE Dashboard</h1>
+            <h1>Your MUSE Dashboard</h1>
             <p>Load your project files and see a personalized visualization of your AI memory, roles, and skills.</p>
             <div class="privacy-badge">🔒 100% client-side — your data never leaves your browser</div>
         </div>

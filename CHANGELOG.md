@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.21.0] - 2026-03-16
+
+### Added
+- **TF-IDF Search** (`scripts/search.sh`) — Zero-dependency ranked search across MUSE project context:
+  - Indexes `memory/` + `.muse/` + `skills/` + `MEMORIES.md`
+  - TF-IDF scoring with normalized term frequency × inverse document frequency
+  - Context snippets: best-matching line shown for each result
+  - Scope filtering: `--scope memory|roles|skills|all`
+  - Visual score bars and color output
+  - New core skill: `skills/core/semantic-search/SKILL.md`
+- **Dashboard v2 Enhancement** (`docs/dashboard.html`):
+  - Expandable skill items: click to show description (parsed from SKILL.md YAML frontmatter)
+  - Health tab: 🔥 active streak counter, 5 detailed stats (total lines, avg/day, total size), explanatory header
+  - Bar chart hover: now shows `date: N lines`
+  - GitHub button: purple → gold accent (matching landing page)
+
+### Changed
+- **Strategic Repositioning** — "Memory-Unified Skills & Execution" → "The AI Coding Governance System"
+  - README.md: new subtitle, L0-L3 layer diagram, AGENTS.md compatibility framing
+  - Landing page: hero subtitle, meta tags, comparison section, skill count 56→57
+  - Tagline: "AGENTS.md defines the format. MUSE builds the system."
+- Version bump: v2.20.0 → v2.21.0 across README, landing page, dashboard
+
 ## [2.20.0] - 2026-03-16
 
 ### Added

@@ -34,7 +34,7 @@
     "url": "https://muse.mythslabs.ai",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux, Windows",
-    "softwareVersion": "2.15.0",
+    "softwareVersion": "2.20.0",
     "license": "https://opensource.org/licenses/MIT",
     "isAccessibleForFree": true,
     "codeRepository": "https://github.com/myths-labs/muse",
@@ -70,6 +70,11 @@
       "Session checkpoint (silent save every 15 rounds)",
       "Defensive auto-save (crash recovery)",
       "Multi-tool support (Claude Code, Cursor, Windsurf, Gemini CLI, Codex CLI, OpenClaw)",
+      "Skill Marketplace Discovery (6 commands: categories, stats, export, recommend, remote-install, registry)",
+      "Web Dashboard (scripts/dashboard.sh) — self-contained HTML project visualizer",
+      "Online Dashboard (muse.mythslabs.ai/dashboard) — client-side project visualization",
+      "VS Code Extension with Roles, Skills, Memory tree views",
+      "Skill Format Converter (Cursor, Windsurf, Copilot, OpenClaw, Aider, Antigravity)",
       "Pure Markdown format, zero code dependencies",
       "One-command install per tool"
     ],
@@ -242,6 +247,46 @@
           <h3>Crash-Proof Auto-Save</h3>
           <p>Silent checkpoints every 15 rounds. Context blowout? <code>/resume crash</code> picks up where you left
             off. At most 10 rounds lost.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Demo -->
+
+  <!-- New in v2.20 -->
+  <section class="section section-dark" id="new">
+    <div class="container">
+      <h2 class="section-title">New in v2.20</h2>
+      <p class="section-subtitle">Marketplace, Dashboard, VS Code — shipped this week</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9h18M3 15h18M9 3v18M15 3v18" />
+            </svg></div>
+          <h3>Online Dashboard</h3>
+          <p>Visit <a href="./dashboard.html" style="color:var(--accent)">muse.mythslabs.ai/dashboard</a> — load your
+            project, see roles, memory, skills visualized. 100% client-side, data stays in your browser.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg></div>
+          <h3>Skill Marketplace</h3>
+          <p><code>recommend</code>, <code>categories</code>, <code>export</code>, <code>registry</code> — discover,
+            browse, share, and install community skills.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 18l6-6-6-6" />
+              <path d="M8 6l-6 6 6 6" />
+            </svg></div>
+          <h3>VS Code Extension</h3>
+          <p>Activity bar with Roles, Skills, Memory trees. In-editor dashboard, skill search, context health check. 8
+            commands via Cmd+Shift+P.</p>
         </div>
       </div>
     </div>
@@ -459,7 +504,7 @@
       <div class="footer-brand">
         <img src="https://raw.githubusercontent.com/myths-labs/muse/main/assets/logo.png" alt="MUSE" width="24"
           height="24">
-        <span>MUSE v2.15.0</span>
+        <span>MUSE v2.20.0</span>
       </div>
       <div class="footer-links">
         <a href="https://github.com/myths-labs/muse" target="_blank" rel="noopener">GitHub</a>

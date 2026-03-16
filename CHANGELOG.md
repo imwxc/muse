@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.20.0] - 2026-03-16
+
+### Added
+- **Online Dashboard** (`docs/dashboard.html`) — Personalized MUSE project visualization at [muse.mythslabs.ai/dashboard](https://muse.mythslabs.ai/dashboard):
+  - 3 data loading methods: folder picker (File System Access API), file input, JSON paste
+  - "Try with Demo Data" for instant preview
+  - 100% client-side — data never leaves the browser
+  - Stats grid, role cards, memory timeline (same as local dashboard)
+  - Added Dashboard link to landing page navigation
+- **Landing Page Updates** — Synced `docs/index.html` version to v2.20.0, added new features (Skill Marketplace, Web Dashboard, VS Code Extension, Online Dashboard)
+
 ## [2.19.0] - 2026-03-16
 
 ### Added

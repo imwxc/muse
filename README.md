@@ -9,7 +9,7 @@
 <p align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/myths-labs/muse/blob/main/LICENSE)
-[![Version](https://img.shields.io/badge/version-2.19.0-blue.svg)](https://github.com/myths-labs/muse/blob/main/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.20.0-blue.svg)](https://github.com/myths-labs/muse/blob/main/CHANGELOG.md)
 [![Stars](https://img.shields.io/github/stars/myths-labs/muse?style=social)](https://github.com/myths-labs/muse)
 [![Pure Markdown](https://img.shields.io/badge/pure-markdown-green.svg)](#)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg)](#)
@@ -404,6 +404,17 @@ lossless-claw is a code plugin (SQLite + DAG + sub-agents) that requires the Ope
 **Q: What if memory/ files pile up?**
 Archive files older than 30 days to `memory/archive/`. Use `/distill` to extract key lessons into `MEMORIES.md` first, then safely archive the originals.
 
+**Q: Is there a visual dashboard?**
+Yes! Two options:
+- **Online**: Visit [muse.mythslabs.ai/dashboard](https://muse.mythslabs.ai/dashboard) and load your project folder — 100% client-side, data stays in your browser.
+- **Local**: Run `./scripts/dashboard.sh` to generate a self-contained HTML dashboard at `.muse/dashboard.html`.
+
+**Q: How do I discover and share skills?**
+Use `./scripts/skill-discovery.sh` with commands like `recommend "frontend"`, `categories`, `stats`, `export <name>`, or `registry`. See [CHANGELOG](CHANGELOG.md) for details.
+
+**Q: Is there a VS Code extension?**
+Yes — `vscode-extension/` provides an activity bar with Roles, Skills, and Memory tree views, plus in-editor dashboard and skill search. Run `cd vscode-extension && npm install && npm run compile`, then press F5.
+
 ## 💬 Follow Us
 
 - 🌐 GitHub: [Myths Labs](https://github.com/myths-labs)
@@ -433,6 +444,6 @@ MIT © [Myths Labs](https://github.com/myths-labs)
 </p>
 
 <p align="center">
-  <i>MUSE v2.19.0</i>
+  <i>MUSE v2.20.0</i>
 </p>
 

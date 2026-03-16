@@ -4,7 +4,7 @@
 
 # 🎭 MUSE
 
-**Memory-Unified Skills & Execution**
+**The AI Coding Governance System — Roles, Memory, Skills, in Plain Markdown**
 
 <p align="center">
 
@@ -30,9 +30,24 @@
 >
 > *MUSE inherits this lineage. It ensures no insight is lost across AI conversations, transforming raw session data into structured knowledge that drives execution.*
 
-MUSE is a pure-Markdown operating system for AI pair programming. Through constitutions, memory layers, skills, and execution workflows, it enables **lossless context management** across AI coding conversations.
+MUSE is a pure-Markdown governance system for AI pair programming. It goes beyond format specs (like AGENTS.md or .cursorrules) by providing a **full system** — role isolation, persistent memory, 57 skills, cross-role directives, and visual dashboards — all with zero code dependencies.
 
-Inspired by the [LCM (Lossless Context Management)](https://papers.voltropy.com/LCM) paper + [lossless-claw](https://github.com/Martian-Engineering/lossless-claw) plugin. MUSE implements LCM's core design principles using **pure Markdown SOPs** — zero code dependencies.
+```
+┌─────────────────────────────────────────────────────┐
+│ L3  Memory Infrastructure   mem0 · MemOS · memsearch│  ← MUSE doesn't compete here
+├─────────────────────────────────────────────────────┤
+│ L2  Governance System       🎭 MUSE                 │  ← Only player at this layer
+│     Roles · Memory · Skills · Directives · Dashboard│
+├─────────────────────────────────────────────────────┤
+│ L1  Workflow Kits           Spec Kit · sudocode      │  ← MUSE covers this + more
+├─────────────────────────────────────────────────────┤
+│ L0  Format Specs            AGENTS.md · .cursorrules │  ← MUSE is compatible
+└─────────────────────────────────────────────────────┘
+```
+
+> **AGENTS.md defines the format. MUSE builds the system on top of it.**
+
+Inspired by [LCM (Lossless Context Management)](https://papers.voltropy.com/LCM) + [lossless-claw](https://github.com/Martian-Engineering/lossless-claw). MUSE implements LCM's core design principles using **pure Markdown SOPs** — zero code dependencies.
 
 [📖 中文文档 / Chinese Docs](./README_CN.md)
 
@@ -40,17 +55,18 @@ Inspired by the [LCM (Lossless Context Management)](https://papers.voltropy.com/
 
 ## ✨ Why MUSE?
 
-**Problem**: AI coding assistants have context window limits. Long conversations forget early content. New conversations start from scratch. The same mistakes are made twice.
+**Problem**: AI coding assistants have context window limits. Format specs like `.cursorrules` or `AGENTS.md` give your AI instructions — but they can't manage **memory**, **roles**, or **cross-session knowledge**. Long conversations forget early content. New conversations start from scratch.
 
-**Solution**: MUSE doesn't change the AI — it wraps it with a **document protocol** that lets it manage its own memory, restore its own context, and save critical info before compression.
+**Solution**: MUSE wraps your AI with a **governance protocol** — role isolation, persistent dual-layer memory, 57 reusable skills, cross-role directive queue, and visual dashboards. All in plain Markdown.
 
 | Without MUSE | With MUSE |
 |---------|---------|
 | AI forgets early context in long conversations | Pre/Post Compaction protocols preserve critical info |
 | New conversations need manual context setup | `/resume` auto-assembles context in 5 steps |
-| Forget to save progress when ending | `/bye` zero-input one-click wrap-up |
-| Cross-day tasks lose continuity | `grep memory/` auto-searches history |
-| Same mistakes repeated | `/distill` distills lessons to long-term memory |
+| One persona for all tasks | Role isolation: build / QA / growth each see only their context |
+| No cross-session memory | Dual-layer: `memory/` (short-term) + `MEMORIES.md` (long-term) |
+| Same mistakes repeated | `/distill` distills lessons → `/search` finds them later |
+| No visibility into project health | Web Dashboard + VS Code Extension |
 
 <p align="center">
   <img src="./assets/demo.webp" alt="MUSE Demo — /resume → boot → work → /ctx → /bye" width="100%">
@@ -202,7 +218,7 @@ graph TB
 | Condensed nodes | `MEMORIES.md` | Cross-day distilled lessons |
 | Condensation | `/distill` | Leaf → long-term memory |
 | Assembler | `/resume` | Context assembly |
-| lcm_grep | `grep_search memory/` | Deep history search |
+| lcm_grep | `./scripts/search.sh` (TF-IDF) | Ranked semantic search |
 | compact:before | Pre-Compaction Protocol | Save before compress |
 | contextThreshold | `/ctx` 80% red line | Auto health check |
 
@@ -218,6 +234,7 @@ graph TB
 | `/ctx` | Context health check (🟢🟡🔴) | None needed |
 | `/bye` | One-click wrap-up — save, sync, archive | None needed |
 | `/distill` | Condense `memory/` → `MEMORIES.md` | None needed |
+| `/search` | TF-IDF search across memory, roles, skills | Query string |
 | `/sync [direction]` | Cross-file sync in multi-role setup | Direction (optional) |
 | `/sync receive` | Pull updates from other roles mid-conversation | None needed |
 | `/resume [project] qa` | Start QA verification (independent from build) | Project name (optional) |
@@ -444,6 +461,6 @@ MIT © [Myths Labs](https://github.com/myths-labs)
 </p>
 
 <p align="center">
-  <i>MUSE v2.20.0</i>
+  <i>MUSE v2.21.0</i>
 </p>
 

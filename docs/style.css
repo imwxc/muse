@@ -808,6 +808,10 @@ body {
     display: none;
   }
 
+  .hero-bg img {
+    object-position: 30% center;
+  }
+
   .hero-tools {
     gap: 6px;
   }

@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.17.0] - 2026-03-16
+
+### Added
+- **Skill Marketplace Discovery Enhancement** (`scripts/skill-discovery.sh`) — 6 new commands transforming local skill browser into a full marketplace:
+  - `categories` — Browse skills across 12 auto-detected categories (Git & VCS, Testing & QA, Frontend & Design, Backend & Data, Mobile, Documentation, Security, Planning & Architecture, Meta & Context, DevOps & Deploy, Agent Orchestration, General)
+  - `stats` — Full system statistics (skill counts by tier, size analysis, composition metrics, storage usage)
+  - `export <name>` — Export any skill as a shareable `.tar.gz` bundle
+  - `recommend <context>` — Smart skill recommendations with word-overlap relevance scoring (⭐ indicators)
+  - `remote-install <github-url>` — Install skills directly from GitHub URLs
+  - `registry` — Fetch community skill index from GitHub for discovery
+
 ## [2.16.0] - 2026-03-16
 
 ### Added

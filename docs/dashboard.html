@@ -819,65 +819,129 @@
             color: var(--text-muted);
         }
 
-        /* ─── Directives ─── */
-        .directive-list {
+        /* ─── Kanban Board (Directives) ─── */
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 16px;
+        }
+
+        .kanban-col {
+            background: rgba(17, 17, 25, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
+        }
+
+        .kanban-col-header {
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 8px;
+        }
+
+        .kanban-col:nth-child(1) .kanban-col-header {
+            border-bottom-color: rgba(253, 203, 110, 0.3);
+        }
+
+        .kanban-col:nth-child(2) .kanban-col-header {
+            border-bottom-color: rgba(9, 132, 227, 0.3);
+        }
+
+        .kanban-col:nth-child(3) .kanban-col-header {
+            border-bottom-color: rgba(0, 184, 148, 0.3);
+        }
+
+        .kanban-count {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--text-dim);
         }
 
         .directive-item {
             background: var(--bg-card);
             border: 1px solid var(--border);
+            border-left: 3px solid;
             border-radius: var(--radius-sm);
             padding: 16px;
             transition: all 0.2s;
+            cursor: default;
         }
 
         .directive-item:hover {
-            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-right-color: var(--accent);
+            border-top-color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .directive-pending {
+            border-left-color: #fdcb6e;
+        }
+
+        .directive-active {
+            border-left-color: #0984e3;
+        }
+
+        .directive-done {
+            border-left-color: #00b894;
+            opacity: 0.7;
+        }
+
+        .directive-done:hover {
+            opacity: 1;
         }
 
         .directive-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
-        }
-
-        .directive-status {
-            font-size: 0.7rem;
-            padding: 2px 10px;
-            border-radius: 10px;
-            font-weight: 600;
-        }
-
-        .directive-pending {
-            background: rgba(253, 203, 110, 0.15);
-            color: #fdcb6e;
-        }
-
-        .directive-done {
-            background: rgba(0, 184, 148, 0.15);
-            color: #00b894;
+            margin-bottom: 8px;
         }
 
         .directive-source {
-            font-size: 0.7rem;
-            color: var(--text-muted);
+            font-size: 0.65rem;
+            color: var(--text-dim);
             font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3px 6px;
+            border-radius: 4px;
         }
 
         .directive-text {
             font-size: 0.85rem;
-            color: var(--text-dim);
+            color: var(--text);
             line-height: 1.5;
+            word-break: break-word;
         }
 
         .directive-date {
             font-size: 0.72rem;
             color: var(--text-muted);
-            margin-top: 6px;
+            margin-top: 10px;
+            text-align: right;
+            border-top: 1px dashed var(--border);
+            padding-top: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .kanban-board {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Animations */
@@ -1338,21 +1402,22 @@
         // ─── Helper: Extract directives from 📡 sections ───
         function extractDirectives(content, roleName, directives) {
             const lines = content.split('\n');
-            let inDirectiveSection = false;
-            let currentDirective = null;
             for (const line of lines) {
                 if (line.includes('📡') && (line.startsWith('#') || line.startsWith('>'))) {
-                    inDirectiveSection = true;
-                    const isPending = line.includes('🟡');
-                    const isDone = line.includes('✅');
+                    // Detect status icon
+                    let status = 'pending';
+                    if (line.includes('✅')) status = 'done';
+                    else if (line.includes('🔄') || line.includes('处理中')) status = 'active';
+
                     const dateMatch = line.match(/\d{4}-\d{2}-\d{2}|\d{1,2}\/\d{1,2}/);
-                    const sourceMatch = line.match(/([\w]+→[\w]+|GROWTH→BUILD|QA→BUILD|STRATEGY→BUILD|BUILD→QA)/);
-                    const textMatch = line.replace(/^[#>\s*]+/, '').replace(/📡|🟡|✅|待接收|已接收|已完成/g, '').trim();
+                    const sourceMatch = line.match(/([a-zA-Z0-9_]+→[a-zA-Z0-9_]+)/);
+                    const textMatch = line.replace(/^[#>\s*]+/, '').replace(/📡|🟡|✅|🔄|待接收|已接收|已完成/g, '').trim();
+
                     if (textMatch.length > 5) {
                         directives.push({
-                            text: textMatch.substring(0, 120),
-                            status: isPending ? 'pending' : isDone ? 'done' : 'done',
-                            source: sourceMatch ? sourceMatch[1] : roleName.toUpperCase(),
+                            text: textMatch.substring(0, 140),
+                            status: status,
+                            source: sourceMatch ? sourceMatch[1].toUpperCase() : roleName.toUpperCase(),
                             date: dateMatch ? dateMatch[0] : ''
                         });
                     }
@@ -1534,21 +1599,50 @@
           </div>
         </div>`;
 
-            // ─── Directives ───
+            // ─── Directives Kanban Board ───
             const directives = data.directives || [];
             const pending = directives.filter(d => d.status === 'pending');
+            const active = directives.filter(d => d.status === 'active');
             const done = directives.filter(d => d.status === 'done');
-            const allDirectives = [...pending, ...done];
-            document.getElementById('directive-list').innerHTML = allDirectives.length ? allDirectives.map(d => `
-        <div class="directive-item animate">
-          <div class="directive-header">
-            <span class="directive-status ${d.status === 'pending' ? 'directive-pending' : 'directive-done'}">${d.status === 'pending' ? '🟡 Pending' : '✅ Done'}</span>
-            <span class="directive-source">${esc(d.source)}</span>
-          </div>
-          <div class="directive-text">${esc(d.text)}</div>
-          ${d.date ? `<div class="directive-date">${esc(d.date)}</div>` : ''}
-        </div>
-      `).join('') : '<p style="color:var(--text-muted)">No directives found</p>';
+
+            const renderCard = (d) => `
+                <div class="directive-item animate directive-${d.status}">
+                  <div class="directive-header">
+                    <span class="directive-source">${esc(d.source)}</span>
+                  </div>
+                  <div class="directive-text">${esc(d.text)}</div>
+                  ${d.date ? `<div class="directive-date">${esc(d.date)}</div>` : ''}
+                </div>
+            `;
+
+            document.getElementById('directive-list').innerHTML = `
+                <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:16px;">Visual Kanban Board parsing 📡 directives directly from your role files.</p>
+                <div class="kanban-board">
+                    <div class="kanban-col">
+                        <div class="kanban-col-header">
+                            <div>🟡 Pending</div>
+                            <div class="kanban-count">${pending.length}</div>
+                        </div>
+                        ${pending.length ? pending.map(renderCard).join('') : '<p style="color:var(--text-muted);font-size:0.8rem;text-align:center;margin-top:20px;">No pending directives</p>'}
+                    </div>
+                    
+                    <div class="kanban-col">
+                        <div class="kanban-col-header">
+                            <div>🔄 Active</div>
+                            <div class="kanban-count">${active.length}</div>
+                        </div>
+                        ${active.length ? active.map(renderCard).join('') : '<p style="color:var(--text-muted);font-size:0.8rem;text-align:center;margin-top:20px;">No active directives</p>'}
+                    </div>
+                    
+                    <div class="kanban-col">
+                        <div class="kanban-col-header">
+                            <div>✅ Done</div>
+                            <div class="kanban-count">${done.length}</div>
+                        </div>
+                        ${done.length ? done.map(renderCard).join('') : '<p style="color:var(--text-muted);font-size:0.8rem;text-align:center;margin-top:20px;">No completed directives</p>'}
+                    </div>
+                </div>
+            `;
 
             // Tabs
             document.querySelectorAll('.tab').forEach(tab => {

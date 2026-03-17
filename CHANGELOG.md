@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.23.0] - 2026-03-18
+
+### Added
+- **Dashboard v2 Visual Enhancements** (`docs/dashboard.html`):
+  - **Visual Kanban Board (P0)**: Trello-style 3-column layout (🟡 Pending / 🔄 Active / ✅ Done) parsing cross-role `📡` directives dynamically.
+  - **Context Pressure Gauge (P1)**: Token burn risk indicator. Calculates active loaded lines from role files, categorizing risk levels (Low < 400, Medium < 800, High > 800) into a visual ring chart.
+  - **Agent Topology Graph (P2)**: Interactive DAG topology generated via Mermaid.js, mapping agent communication pipelines (source → target) based on directive data.
+  - Continued zero-dependency philosophy: 100% client-side rendering.
 ## [2.22.0] - 2026-03-17
 
 ### Added

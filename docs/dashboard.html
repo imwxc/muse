@@ -760,9 +760,49 @@
 
         .health-grid {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 1fr 1fr 2fr;
             gap: 16px;
             align-items: start;
+        }
+
+        .gauge-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gauge-ring {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(var(--success) 0%, var(--success) 40%, var(--warning) 40%, var(--warning) 80%, var(--danger) 80%, var(--danger) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .gauge-ring::before {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: var(--bg-card);
+            border-radius: 50%;
+        }
+
+        .gauge-value {
+            position: relative;
+            z-index: 1;
+            font-size: 1.4rem;
+            font-weight: 700;
         }
 
         .health-stat {
@@ -1556,6 +1596,7 @@
             const totalLines = (data.memory || []).reduce((sum, m) => sum + m.lines, 0);
             const avgLines = last7.length ? Math.round(totalLines / (data.memory?.length || 1)) : 0;
             const totalKB = ((data.memory || []).reduce((sum, m) => sum + (m.size || 0), 0) / 1024).toFixed(1);
+
             // Streak: count consecutive days from most recent
             let streak = 0;
             if (data.memory?.length) {
@@ -1566,24 +1607,42 @@
                     if (d.getTime() === expected.getTime()) streak++; else break;
                 }
             }
+
+            // Context Pressure Calculation (Token Burn)
+            const roleLines = (data.roles || []).reduce((sum, r) => sum + r.lines, 0);
+            const pressureLevel = roleLines < 400 ? 'Low' : roleLines < 800 ? 'Medium' : 'High';
+            const pressureColor = roleLines < 400 ? 'var(--success)' : roleLines < 800 ? 'var(--warning)' : 'var(--danger)';
+            const pressureDegree = Math.min((roleLines / 1000) * 360, 360);
+
             document.getElementById('health-section').innerHTML = `
         <div style="margin-bottom:20px">
           <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:6px">Project Health Overview</h3>
-          <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6">Track your AI-assisted development activity. Each bar represents one day of memory logs — taller bars mean more detailed sessions. A consistent streak indicates healthy project momentum.</p>
+          <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6">Track your AI-assisted development activity. Monitor your session streaks, memory pipeline, and context window pressure to prevent AI hallucinations.</p>
         </div>
         <div class="health-grid animate">
+          
+          <div class="gauge-container">
+            <div class="gauge-ring" style="background: conic-gradient(${pressureColor} 0deg, ${pressureColor} ${pressureDegree}deg, var(--border) ${pressureDegree}deg, var(--border) 360deg);">
+                <div class="gauge-value" style="color:${pressureColor}">${roleLines}</div>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-dim);margin-top:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Context Pressure</div>
+            <div style="margin-top:8px;font-size:0.75rem;color:var(--text-muted); line-height:1.4;">
+                Active Lines Loaded<br>
+                <strong style="color:${pressureColor}">${pressureLevel} Risk</strong>
+            </div>
+          </div>
+
           <div class="health-stat">
             <div class="stat-icon">🔥</div>
             <div class="stat-value" style="font-size:1.8rem">${streak}d</div>
             <div class="stat-label">Active Streak</div>
             <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:12px;text-align:left;font-size:0.75rem;color:var(--text-muted);line-height:2">
               <div style="display:flex;justify-content:space-between"><span>Last active</span><span style="color:var(--text)">${lastActive}</span></div>
-              <div style="display:flex;justify-content:space-between"><span>Total files</span><span style="color:var(--text)">${data.memory?.length || 0}</span></div>
-              <div style="display:flex;justify-content:space-between"><span>Total lines</span><span style="color:var(--text)">${totalLines.toLocaleString()}</span></div>
-              <div style="display:flex;justify-content:space-between"><span>Avg lines/day</span><span style="color:var(--text)">${avgLines}</span></div>
-              <div style="display:flex;justify-content:space-between"><span>Total size</span><span style="color:var(--text)">${totalKB} KB</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Total logs</span><span style="color:var(--text)">${data.memory?.length || 0}</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Total memory</span><span style="color:var(--text)">${totalKB} KB</span></div>
             </div>
           </div>
+
           <div class="bar-chart">
             <div class="bar-chart-title">Memory Activity — lines written per session day</div>
             <p style="font-size:0.72rem;color:var(--text-muted);margin:-10px 0 14px">Each bar = one day's memory log. Hover for exact line count.</p>

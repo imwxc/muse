@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.22.0] - 2026-03-17
+
+### Added
+- **Memory Loss Prevention** — 5-layer SOP fix to prevent cross-conversation context loss:
+  - `/bye` Step 1: **Context Recovery 三問** — Self-check forcing agents to verify next-session context completeness
+  - `/bye` Step 4: **Enriched memory template** — Now records rejected proposals, user corrections, URLs, and cross-conversation context (not just what was done)
+  - `/resume` Boot Step ⑦: **Project Deployment Fact Table** check — All resume reports must include active project URLs
+  - `/resume` Step 5.3: **Deployment fact table validation** — Cross-verify versions, URLs, and deployment status
+- **Warning annotations** in memory template — `⚠️「如有」≠「可省略」` and `🔴 最常见遗漏` blocks to prevent memory gaps
+
+### Fixed
+- **`/bye` memory template too sparse** — Old template only captured 3 fields (完成/决策/下一步). New template captures 7 fields including rejected proposals (`❌ 否决`), user quotes (`💬 关键用户原话`), URLs (`🔗`), and cross-session context (`📡 跨对话上下文`)
+- **`/resume` missing URL awareness** — Agents had no way to quickly find project deployment URLs. New Boot Step ⑦ reads deployment fact table from strategy.md
+
 ## [2.21.0] - 2026-03-17
 
 ### Added

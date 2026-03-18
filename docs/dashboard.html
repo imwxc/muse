@@ -2077,13 +2077,12 @@
 
                 // Build Mermaid syntax with sanitized IDs
                 let graphStr = 'graph LR\n';
-                graphStr += '    classDef role fill:#1f2335,stroke:#c9a84c,stroke-width:2px,color:#c9a84c,font-size:16px,font-weight:bold;\n';
 
                 const idMap = new Map();
                 nodeNames.forEach(n => {
                     const id = sanitizeMermaidId(n);
                     idMap.set(n, id);
-                    graphStr += `    ${id}["${n}"]:::role\n`;
+                    graphStr += `    ${id}["${n}"]\n`;
                 });
 
                 edges.forEach((weight, key) => {
@@ -2106,8 +2105,14 @@
                             theme: 'dark',
                             fontFamily: 'Inter, sans-serif',
                             themeVariables: {
+                                primaryColor: '#1f2335',
+                                primaryTextColor: '#c9a84c',
+                                primaryBorderColor: '#c9a84c',
+                                nodeTextColor: '#c9a84c',
                                 edgeLabelBackground: 'transparent',
-                                textColor: '#a9b1d6'
+                                textColor: '#c9a84c',
+                                lineColor: '#555580',
+                                fontSize: '16px'
                             }
                         });
                         renderMermaidGraph(graphStr, container);
@@ -2127,6 +2132,19 @@
                     if (svgElement) {
                         svgElement.style.maxWidth = '100%';
                         svgElement.style.height = 'auto';
+                        // Force node text visibility with injected CSS
+                        const styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+                        styleEl.textContent = `
+                            .node .label { color: #c9a84c !important; }
+                            .node .label span, .node .label div { color: #c9a84c !important; font-size: 16px !important; font-weight: bold !important; }
+                            .node foreignObject span, .node foreignObject div { color: #c9a84c !important; font-size: 16px !important; font-weight: bold !important; }
+                            .node text, .node tspan { fill: #c9a84c !important; font-size: 16px !important; font-weight: bold !important; }
+                            .nodeLabel { color: #c9a84c !important; font-size: 16px !important; font-weight: bold !important; }
+                            .node rect, .node .label-container { fill: #1f2335 !important; stroke: #c9a84c !important; stroke-width: 2px !important; rx: 8px; ry: 8px; }
+                            .edgeLabel .label span { color: #a9b1d6 !important; font-size: 13px !important; }
+                            .edgeLabel foreignObject span, .edgeLabel foreignObject div { color: #a9b1d6 !important; font-size: 13px !important; }
+                        `;
+                        svgElement.insertBefore(styleEl, svgElement.firstChild);
                     }
 
                     // Add interactive drill-down clicks

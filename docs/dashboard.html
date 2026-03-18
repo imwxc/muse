@@ -1166,6 +1166,10 @@
 </head>
 
 <body>
+    <!-- MUSE 3D Particle Background -->
+    <div id="particle-container"
+        style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;opacity:0.6;"></div>
+
     <!-- Nav -->
     <nav class="nav">
         <div class="nav-inner">
@@ -1770,11 +1774,11 @@
                 function extractConstellationNodes(content) {
                     const lines = content.split('\n');
                     const keywords = new Map();
-                    const stopwords = new Set(['about','after','again','could','should','would','there','their','which',
-                        'these','those','other','where','while','being','under','above','below','between',
-                        'through','before','during','without','within','along','inside','outside',
-                        'source','memory','auto-captured','auto','from','into','with','have','been',
-                        'that','this','what','when','only','also','more','most','than','just','very']);
+                    const stopwords = new Set(['about', 'after', 'again', 'could', 'should', 'would', 'there', 'their', 'which',
+                        'these', 'those', 'other', 'where', 'while', 'being', 'under', 'above', 'below', 'between',
+                        'through', 'before', 'during', 'without', 'within', 'along', 'inside', 'outside',
+                        'source', 'memory', 'auto-captured', 'auto', 'from', 'into', 'with', 'have', 'been',
+                        'that', 'this', 'what', 'when', 'only', 'also', 'more', 'most', 'than', 'just', 'very']);
                     lines.forEach(line => {
                         // Match [FACT], [DECISION], [LESSON] with optional bold (**) and bullet (- ) prefix
                         // Real format: - **[FACT] text** (source: memory/...)
@@ -2072,16 +2076,14 @@
                 }
 
                 // Build Mermaid syntax with sanitized IDs
-                let graphStr = 'graph TD\n';
-                graphStr += '    %% Theme configuration\n';
-                graphStr += '    classDef default fill:#1a1b26,stroke:#3b4054,stroke-width:2px,color:#a9b1d6,rx:8px,ry:8px;\n';
-                graphStr += '    classDef role fill:#1f2335,stroke:#c9a84c,stroke-width:2px,color:#c9a84c,font-weight:bold;\n';
+                let graphStr = 'graph LR\n';
+                graphStr += '    classDef role fill:#1f2335,stroke:#c9a84c,stroke-width:2px,color:#c9a84c,font-size:16px,font-weight:bold;\n';
 
                 const idMap = new Map();
                 nodeNames.forEach(n => {
                     const id = sanitizeMermaidId(n);
                     idMap.set(n, id);
-                    graphStr += `    ${id}["\ud83c\udfad ${n}"]:::role\n`;
+                    graphStr += `    ${id}["${n}"]:::role\n`;
                 });
 
                 edges.forEach((weight, key) => {
@@ -2264,6 +2266,10 @@
                 return files;
             }
         </script>
+
+        <!-- MUSE 3D Particle Background Effect -->
+        <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+        <script src="muse-particle.js"></script>
 </body>
 
 </html>

@@ -85,6 +85,11 @@
 </head>
 
 <body>
+  <!-- MUSE 3D Particle Background -->
+  <div id="particle-container"
+    style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;opacity:0.5;">
+  </div>
+
   <!-- Starlight Particles Canvas -->
   <canvas id="starfield"></canvas>
 
@@ -114,7 +119,7 @@
   </nav>
 
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" style="background:#0a0a0f;z-index:2;">
     <div class="hero-bg">
       <img src="hero-banner.png" alt="" loading="eager">
       <div class="hero-overlay"></div>
@@ -633,6 +638,10 @@
       }).observe(document.body);
     })();
   </script>
+
+  <!-- MUSE 3D Particle Background Effect -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="muse-particle.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,61 @@
+<!--
+  3D Particle Background — HTML Integration Snippet
+  ===================================================
+  Copy the relevant sections into your project's HTML.
+  
+  STEPS:
+  1. Copy particle-bg.js + your logo PNG into your docs/ folder
+  2. Edit particle-bg.js → change IMAGE_PATH to your logo filename
+  3. Add the CONTAINER div right after <body>
+  4. Add the SCRIPTS before </body>
+  5. Add HERO exclusion styles to your hero section
+  6. Adjust container opacity (0.4-0.7 recommended)
+-->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- STEP 1: Add this right after <body>                    -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<!-- 3D Particle Background -->
+<div id="particle-container" style="position:fixed;
+            top:0; left:0;
+            width:100vw; height:100vh;
+            z-index:-1;
+            pointer-events:none;
+            opacity:0.5;">
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- STEP 2: Your hero section MUST block particles         -->
+<!--         Add inline style for maximum reliability       -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<section class="hero" style="background:#YOUR_BG_COLOR; z-index:2;">
+    <!-- Your hero content... -->
+    <!-- The opaque background ensures particles don't bleed through -->
+    <!-- Replace #YOUR_BG_COLOR with your site's primary background -->
+    <!-- Examples: #0a0a0f (dark), #ffffff (light), #1a1b2e (navy) -->
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- STEP 3: Add scripts before </body>                     -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<!-- Three.js (WebGL engine, required) -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+<!-- Your particle effect (copy particle-bg.js from the skill template) -->
+<script src="particle-bg.js"></script>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- OPTIONAL: Disable on mobile for performance            -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<script>
+    if (window.matchMedia('(max-width: 768px)').matches) {
+        const pc = document.getElementById('particle-container');
+        if (pc) pc.style.display = 'none';
+    }
+</script>

@@ -128,15 +128,75 @@ DO NOT use `clip-path: inset(...)` on the particle container to exclude the hero
 
 ### 7. Customizing for Different Projects
 
-To use a different logo/image:
+Each project uses a **different logo image** but the same integration pattern.
 
-1. Go to [Particleify](https://particleify.tailzen.com) or similar tool
-2. Upload your project's logo
-3. Adjust effect settings (particle count, size, mode)
-4. Export or copy the HTML
-5. Follow Steps 1-6 above to integrate
+#### Quick-Start for a New Project
 
-**Effect modes available** (if using Particleify-exported code):
+```bash
+# 1. Copy the templates into your project
+cp skills/toolkit/particle-background/templates/particle-bg.js  YOUR_PROJECT/docs/
+cp skills/toolkit/particle-background/templates/integration-snippet.html YOUR_PROJECT/docs/  # reference only
+
+# 2. Generate your particle image
+#    Option A: Use Particleify (https://particleify.tailzen.com)
+#              Upload your logo → adjust settings → Export HTML → extract base64 image
+#    Option B: Use any transparent PNG logo directly (white/light on transparent works best)
+
+# 3. Save your logo image
+cp your-logo.png YOUR_PROJECT/docs/my-logo-particle.png
+
+# 4. Edit particle-bg.js — change IMAGE_PATH on line 18
+#    const IMAGE_PATH = './my-logo-particle.png';
+
+# 5. Edit particle-bg.js — change baseColor to match your project's brand
+#    See color presets below
+
+# 6. Copy integration-snippet.html sections into your actual HTML files
+```
+
+#### Template Files Included
+
+| File | Purpose |
+|------|---------|
+| `templates/particle-bg.js` | Ready-to-use particle JS module. Change `IMAGE_PATH` and `CONFIG` at the top. |
+| `templates/integration-snippet.html` | HTML snippets to copy-paste: container div, hero exclusion, scripts. |
+
+#### Color Presets by Theme
+
+Adjust `CONFIG.baseColor` in `particle-bg.js` to match your project's brand:
+
+```javascript
+// Gold (MUSE default)
+baseColor: { r: 1.0, g: 0.85, b: 0.4 }
+
+// Cyan / Tech blue
+baseColor: { r: 0.3, g: 0.8, b: 1.0 }
+
+// Purple / Creative
+baseColor: { r: 0.7, g: 0.4, b: 1.0 }
+
+// Green / Nature
+baseColor: { r: 0.3, g: 1.0, b: 0.6 }
+
+// Red-Orange / Energy
+baseColor: { r: 1.0, g: 0.4, b: 0.2 }
+
+// White / Neutral
+baseColor: { r: 1.0, g: 1.0, b: 1.0 }
+```
+
+#### Hero Background Color per Theme
+
+The hero `background` must match the site's primary bg color:
+
+```
+Dark theme:   background: #0a0a0f
+Navy theme:   background: #0d1117
+Light theme:  background: #ffffff
+Custom:       background: var(--bg-primary)  /* if CSS variable is opaque */
+```
+
+#### Effect modes available (Particleify-exported code):
 - `default` — particles morph into image shape
 - `scatter` — particles randomly spread
 - `explode` — outward burst from center
@@ -154,17 +214,36 @@ To use a different logo/image:
 | Huge page size | Extract base64 images to separate PNG files |
 | Particles not visible | Check `z-index` conflicts; content sections may need transparent backgrounds |
 | Performance issues on mobile | Reduce `particleCount` or disable entirely via media query |
+| `clip-path` used for hero exclusion | Don't! Use opaque hero background instead (see Step 4) |
 
 ## File Structure
 
+### Skill Template Files
 ```
-docs/
+skills/toolkit/particle-background/
+├── SKILL.md                              # This guide
+└── templates/
+    ├── particle-bg.js                    # Copy & customize per project
+    └── integration-snippet.html          # HTML reference snippets
+```
+
+### Per-Project Target Structure
+```
+your-project/docs/
 ├── index.html              # Landing page (particles + hero exclusion)
 ├── dashboard.html          # Dashboard (full particle background)
-├── my-logo-particle.png    # Extracted logo image (~500KB)
-├── my-particle.js          # Particle effect module (~22KB)
-└── style.css               # Includes hero opacity fix
+├── my-logo-particle.png    # Your project's logo image
+├── particle-bg.js          # Customized from template
+└── style.css               # Includes hero background fix
 ```
+
+## Reference Implementation
+
+The canonical working implementation is in the MUSE project:
+- **JS module**: `docs/muse-particle.js` (advanced version with GLSL shaders)
+- **Logo image**: `docs/muse-logo-particle.png`
+- **Dashboard integration**: `docs/dashboard.html` (full background, opacity 0.6)
+- **Landing page integration**: `docs/index.html` (hero excluded via opaque bg)
 
 ## Dependencies
 

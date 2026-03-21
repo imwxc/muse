@@ -108,7 +108,7 @@ description: 新对话开始时恢复项目上下文的标准流程
    - 用户会在指令中说明 AC 来源（如 "执行 S028 QA"）
    - 如没说明 → 检查 qa.md「最近 QA 结果」是否有待复验的 FAIL 项
    - 输出恢复报告时包含：上次 QA 状态 + 有无待执行的 QA 指令
-5. **如果是 `/resume strategy`：检查 memory/ 中是否有未同步到 strategy.md 的重大事件**（grep 关键词：被拒/通过/审核/定稿/部署/融资/resubmit/rejected/approved/MUSE/开源/repo）→ 有则提醒用户需要 sync
+5. **如果是 `/resume strategy`：检查 memory/ 中是否有未同步到 strategy.md 的重大事件**（grep 关键词：被拒/通过/审核/定稿/部署/融资/resubmit/rejected/approved/MUSE/开源/repo/安全/security/泄露/轮换/filter-branch/Skill/instinct/预装/发布/release/宪法/CLAUDE\.md/推荐人/已发送）→ 有则提醒用户需要 sync
 5.1 **冲突解决**：memory 和角色文件数据冲突时，**以角色文件为准**（memory 是写入时的快照，角色文件持续更新）。恢复报告只引用角色文件中的数据，memory 仅用于发现遗漏
 5.2 **内部一致性校验**：输出恢复报告前，交叉检查角色文件内的同一事实是否在多处一致（如融资表/决策表/待办/指令队列中同一事项的状态是否矛盾）
 5.3 **项目部署事实表校验**（全角色必做）：扫描 strategy.md 的 `🌐 项目部署事实表`，交叉验证：

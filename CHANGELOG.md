@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.28.0] - 2026-03-21
+
+### Fixed
+- **`/bye` sync gap — memory written but role files not updated** (`workflows/bye.md`) — Root cause: "Major Event Checklist" only covered 7 event types (App Store releases, bug fixes, Deck deployments, etc.), missing security audits, GitHub/npm releases, new skills, product insights, cross-project infra changes, and external communications. Agent would conclude "no sync needed" when events didn't match the narrow checklist. Expanded to **12 event types**. Added mandatory **Proactive Diff** step: after writing memory, agent must compare each memory entry against the role file item-by-item (✅ already synced / 📝 needs sync / ⏭️ skip with reason). Blanket "no sync needed" judgments are now explicitly prohibited.
+- **`/resume` sync-check keyword coverage** (`workflows/resume.md`) — Strategy resume's memory→role-file gap detection was grepping for only 12 keywords. Added 11 more: `安全/security/泄露/轮换/filter-branch/Skill/instinct/预装/发布/release/宪法/CLAUDE.md/推荐人/已发送`.
+
 ## [2.27.0] - 2026-03-21
 
 ### Added

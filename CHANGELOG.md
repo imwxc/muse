@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.29.0] - 2026-03-22
+
+### Added
+- **Builder Ethos** (`ETHOS.md`) — 5 core principles for AI-governed multi-project development:
+  - *Boil the Lake* — AI makes completeness near-zero cost, always do the full implementation
+  - *Search Before Building* — Three layers of knowledge (tried-and-true → new-and-popular → first-principles)
+  - *Ship the Narrowest Wedge* — Scope tight, ship fast, learn from real usage
+  - *Memory Over Momentum* — Lessons compound; build on what you learned, not just what excites you
+  - *Governance Is Speed* — Structure makes solo builders faster, not slower
+  - Inspired by [gstack](https://github.com/garrytan/gstack) by Garry Tan (YC CEO), adapted with 3 MUSE-original principles
+- **`/sprint` workflow** (`workflows/sprint.md`) — Feature development pipeline connecting existing MUSE skills into an ordered sprint:
+  - Think (`brainstorming`) → Plan (`writing-plans` + `architect-agent`) → Build (`executing-plans`) → Review (`code-reviewer-agent` + `security-reviewer-agent`) → Test (`webapp-testing` + `e2e-runner`) → Ship (`github-pr-creation` + `github-pr-merge`) → Reflect (`/retro` + `/bye`)
+  - Use case: `You: /sprint` → agent walks through all 7 phases with the right skill at each step
+- **`/retro` workflow** (`workflows/retro.md`) — Development retrospective from memory logs and git history:
+  - Gathers: git commit stats, memory/ daily logs, STATUS.md diffs
+  - Outputs: shipping velocity, decisions made, blockers hit, lessons learned, next-week priorities
+  - Use case: `You: /retro` → weekly summary with commit counts, lines changed, shipped features
+
+### Changed
+- **`brainstorming` skill upgraded** (`skills/toolkit/brainstorming/SKILL.md`) — Now includes gstack-inspired reframing:
+  - Phase 1: Reframe the problem (challenge 3 hidden premises before exploring solutions)
+  - Phase 2: Generate 3 approaches with effort estimates (narrowest wedge / balanced / full vision)
+  - Phase 4: Standardized design doc output (`docs/plans/YYYY-MM-DD-<topic>-design.md`) that downstream skills read
+
 ## [2.28.0] - 2026-03-21
 
 ### Fixed

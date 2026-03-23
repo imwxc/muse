@@ -2,7 +2,7 @@
 
 > Roles, Memory, Skills, in Plain Markdown. Zero dependencies.
 
-MUSE is the only full governance system for AI pair programming. It goes beyond format specs (AGENTS.md, .cursorrules) and memory infrastructure (mem0, MemOS) by providing role isolation, persistent memory, 57 skills, cross-role directives, TF-IDF search, and visual dashboards — all in pure Markdown.
+MUSE is the only full governance system for AI pair programming. It goes beyond format specs (AGENTS.md, .cursorrules) and memory infrastructure (mem0, MemOS) by providing role isolation, persistent memory, 59 skills, cross-role directives, TF-IDF search, and visual dashboards — all in pure Markdown.
 
 ## Core Concept
 
@@ -11,7 +11,7 @@ AGENTS.md defines the format. MUSE builds the system.
 MUSE wraps AI coding assistants with a governance protocol that enables:
 - Role-based context isolation (build, qa, growth, strategy)
 - Dual-layer memory persistence (short-term + long-term)
-- 57 reusable skills loaded on demand
+- 59 reusable skills loaded on demand
 - Cross-role async directive queue with delivery tracking
 - TF-IDF search across all project context
 - Web Dashboard + VS Code Extension for visualization
@@ -31,7 +31,12 @@ L0  Format Specs            AGENTS.md · .cursorrules       ← MUSE is compatib
 - **Role Isolation**: Build, QA, Growth, Strategy — each role reads only its own state file
 - **Directive Queue**: Async cross-role messaging with 🟡/✅ status protocol
 - **MCP Server**: Built-in Bash MCP server with 6 JSON-RPC tools, zero dependencies
-- **57 Skills**: Core (6) + Toolkit (42) + Ecosystem (9) reusable skill packs
+- **59 Skills**: Core (5) + Toolkit (45) + Ecosystem (9) reusable skill packs
+- **Builder Ethos**: 5 core principles for AI-governed development (Boil the Lake, Search Before Building, Ship the Narrowest Wedge, Memory Over Momentum, Governance Is Speed)
+- **Sprint Pipeline**: `/sprint` — 7-phase feature development workflow (Think→Plan→Build→Review→Test→Ship→Reflect)
+- **Weekly Retro**: `/retro` — automated retrospective from memory logs + git history
+- **Git Security Guard**: Pre-commit/push secret leak prevention for API keys, tokens, private keys, .env files
+- **Systematic Debugging v2**: L1→L4 pressure escalation with passive behavior detection and anti-rationalization
 - **TF-IDF Search**: Zero-dependency ranked search across memory, roles, and skills
 - **Auto Memory Capture**: Automatic LESSON/DECISION/FACT extraction on session end
 - **Semantic Compression**: 3-tier context compression based on session length
@@ -51,10 +56,13 @@ cd muse && ./setup.sh
 
 - `/resume [role]` — Boot and restore context
 - `/bye` — One-click wrap-up, auto-save
+- `/sprint` — Feature dev pipeline: Think→Plan→Build→Review→Test→Ship→Reflect
+- `/retro` — Weekly retrospective from memory + git history
 - `/ctx` — Context health check (🟢🟡🔴)
 - `/distill` — Condense daily logs to long-term memory
 - `/search` — TF-IDF search across memory, roles, skills
 - `/sync` — Cross-role synchronization
+- `/settings` — Change language, model, preferences
 
 ## Supported Tools
 

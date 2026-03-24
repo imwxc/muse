@@ -10,7 +10,10 @@ description: 新对话开始时恢复项目上下文的标准流程
 
 ```
 ① CLAUDE.md + MEMORIES.md  → 宪法 + 长期教训（自动注入）
+   ①.1 🆕 Temporal Filter: 跳过 ~~删除线~~ historical 条目 + 已过期 [TEMPORAL:past-date]
 ② memory/今天.md + 昨天.md → 短期记忆（最近发生了什么）
+   ②.1 🆕 [EPISODIC] 条目 >3天 → 只保留 section headers, 不加载细节
+   ②.2 🆕 [TEMPORAL:past-date] 条目 → 完全跳过（已过期事件/截止日期）
 ②.3 🆕 Conversation Summaries 交叉验证 → 防 /bye 未执行导致的记忆黑洞
 ②.5 扫描 memory `➡️ 下一步` 中的 🟨 项 → 有未完成项则主动提醒（标注可信度）
 ③ 跨天任务? grep_search memory/ 搜索任务关键词 → 定位更早的相关记忆

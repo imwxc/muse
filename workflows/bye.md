@@ -169,14 +169,28 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
 ```markdown
 ## [角色] Session [N] (HH:MM-HH:MM)
 - ✅ 上轮遗留: [完成的上一轮"下一步"任务]（如有）
-- 完成: [要点]
-- 决策: [决策内容 + 为什么]
-- ❌ 否决: [讨论过但否决的方案 + 原因]（如有）
-- 💬 关键用户原话: "[用户说的关键判断/纠正]"（如有）
-- 🔗 关键 URL/文件: [本轮新产生或涉及的网址、文件路径]（如有）
-- 📡 跨对话上下文: [下一轮 Agent 恢复工作必须知道的架构决策/技术选型/讨论结论]（如有）
-- ➡️ 下一步: [具体可执行项]
+- 完成: [要点] [EPISODIC]
+- 决策: [决策内容 + 为什么] [PERMANENT]
+- ❌ 否决: [讨论过但否决的方案 + 原因]（如有） [PERMANENT]
+- 💬 关键用户原话: "[用户说的关键判断/纠正]"（如有） [PERMANENT]
+- 🔗 关键 URL/文件: [本轮新产生或涉及的网址、文件路径]（如有） [PERMANENT]
+- 📡 跨对话上下文: [下一轮 Agent 恢复工作必须知道的架构决策/技术选型/讨论结论]（如有） [PERMANENT]
+- ➡️ 下一步: [具体可执行项] [TEMPORAL:YYYY-MM-DD]
 ```
+
+> 🆕 **v2.32.0 — Temporal Classification**: 每条 memory 条目末尾标注时效标签。
+
+| 标签 | 含义 | 适用场景 | `/resume` 行为 |
+|------|------|---------|---------------|
+| `[PERMANENT]` | 永不过期 | 架构决策、用户偏好、教训、关键事实 | 始终加载 |
+| `[TEMPORAL:YYYY-MM-DD]` | 到期后过期 | 截止日期、版本特定 bug、活动事件 | 过期后跳过 |
+| `[EPISODIC]` | 会话上下文，自然衰减 | 调试过程、进度笔记、临时讨论 | 3 天后降权，仅保留 section header |
+
+**自动分类规则**（Agent 写 memory 时直接应用）：
+- 截止日期 / 加速器 / 版本特定 → `[TEMPORAL:到期日期]`
+- 架构决策 / 用户偏好 / 教训 / 否决 / 用户原话 → `[PERMANENT]`
+- 会话进度 / 调试 / 完成项 / 中间决策 → `[EPISODIC]`
+- 不确定 → 默认 `[EPISODIC]`（安全默认，自然衰减）
 
 > 🚨 **上轮遗留回写规则（RC-2 修复）**:
 > 读取当天 memory 文件中前几个 Session 的「➡️ 下一步」条目，如果本轮完成了其中任何一项:
@@ -186,6 +200,23 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
 
 > ⚠️ **「如有」≠「可省略」**：如果本轮有否决/纠正/URL 但你没写 → 等于你制造了记忆黑洞。
 > 🔴 **最常见遗漏**: 用户纠正了 Agent 的理解但 Agent 没记录 → 下轮 Agent 重犯同样错误。
+
+### 4.7 图关系感知自动捕获（Graph-Aware Auto Capture）
+
+> 🆕 **v2.32.0 — P0 Graph Memory Relations**: Auto Capture 写入 MEMORIES.md 前必须检测关系。
+
+当 session 结束自动捕获 `[FACT]`/`[DECISION]`/`[LESSON]` 到 MEMORIES.md 时：
+
+1. **写入前对比**: 将每条候选条目与 MEMORIES.md 现有条目逐一比对
+2. **关系分类**:
+   - `UPDATES` → 旧条目加 `~~删除线~~` + `(historical: superseded by [TAG] YYYY-MM-DD)`，写入新条目
+   - `EXTENDS` → 在现有条目下追加 `↳ EXTENDS:` 子弹点，不创建新条目
+   - `DERIVES` → 新条目添加 `(derived from: [EXISTING_TAG])`
+   - `NEW` → 正常追加（当前行为）
+3. **Strikethrough 保护**: 只有 `[FACT]` 和 `[DECISION]` 可被 UPDATES，`[LESSON]` 保留原文
+4. **每次 `/bye` 最多 5 条**自动捕获（现有限制不变），不捕获 TODO
+
+> 详细关系检测规则见 `distill.md` Step 3a。
 
 ### 4.5 角色文件膨胀检查（静默）
 **每次 /bye 都检查**，不需要用户触发：

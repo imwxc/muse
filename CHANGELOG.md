@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.32.0] - 2026-03-24
+
+### Added
+- **Graph Memory Relations** (`workflows/distill.md`, `workflows/bye.md`) — MUSE memory entries now track relationships to existing knowledge:
+  - **UPDATES**: New facts that supersede old ones → old entry gets `~~strikethrough~~` + `(historical)` tag, preserving full history chain
+  - **EXTENDS**: Supplementary details → appended as `↳ EXTENDS:` sub-bullet under existing entry
+  - **DERIVES**: Insights deduced from existing data → tagged `(derived from: [EXISTING_TAG])`
+  - **NEW**: Unrelated entries → normal append (backward compatible)
+  - Both `/distill` (Step 3a) and `/bye` auto-capture (Step 4.7) apply graph relation detection before writing to MEMORIES.md
+  - Strikethrough rules: `[FACT]` and `[DECISION]` can be superseded; `[LESSON]` preserved (evolves, not replaced)
+  - Cleanup threshold: 20+ historical entries triggers archive prompt
+- **Auto-Expiry Temporal Tagging** (`workflows/bye.md`, `workflows/resume.md`, `workflows/distill.md`) — Memory entries classified by temporal type at write time:
+  - `[PERMANENT]` — Never expires (architecture decisions, user preferences, lessons)
+  - `[TEMPORAL:YYYY-MM-DD]` — Expires on specific date (deadlines, version-specific bugs, events)
+  - `[EPISODIC]` — Session context that naturally fades (debug sessions, progress notes)
+  - `/resume` temporal filtering: expired `[TEMPORAL]` entries skipped, `[EPISODIC]` entries >3 days reduced to section headers only
+  - `/distill` temporal awareness: expired entries skipped, episodic entries reviewed for pattern upgrade to `[PERMANENT]`
+  - Inspired by [Supermemory](https://github.com/supermemory) graph relations and smart forgetting concepts
+  - **Red line maintained**: Zero dependencies — pure Markdown + LLM reasoning, no vector DB or cloud services
+
+### Changed
+- **MEMORIES.md template** (`templates/MEMORIES.md`) — Updated format documentation with graph relation examples and temporal tag reference
+- **`/resume` boot sequence** — New sub-steps: ①.1 temporal filter for MEMORIES.md, ②.1 episodic deprioritization, ②.2 temporal expiry skip
+
 ## [2.31.0] - 2026-03-24
 
 ### Added

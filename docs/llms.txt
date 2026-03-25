@@ -37,6 +37,9 @@ L0  Format Specs            AGENTS.md · .cursorrules       ← MUSE is compatib
 - **Weekly Retro**: `/retro` — automated retrospective from memory logs + git history
 - **Git Security Guard**: Pre-commit/push secret leak prevention for API keys, tokens, private keys, .env files
 - **Systematic Debugging v2**: L1→L4 pressure escalation with passive behavior detection and anti-rationalization
+- **Graph Memory Relations**: Memory entries auto-detect relationships — UPDATES (supersede old facts with ~~strikethrough~~), EXTENDS (sub-details), DERIVES (inferences), NEW. Pure Markdown graph, zero vector DB.
+- **Auto-Expiry Temporal Tagging**: Memory classified at write time as `[PERMANENT]` (never expires), `[TEMPORAL:YYYY-MM-DD]` (auto-expires), or `[EPISODIC]` (fades after 3 days). `/resume` auto-filters expired entries.
+- **Unexecuted Directive Scan**: `/resume` Step 2.8 surfaces buried 🟡 received-but-unexecuted directives in role files, preventing lost work in long documents.
 - **TF-IDF Search**: Zero-dependency ranked search across memory, roles, and skills
 - **Auto Memory Capture**: Automatic LESSON/DECISION/FACT extraction on session end
 - **Semantic Compression**: 3-tier context compression based on session length

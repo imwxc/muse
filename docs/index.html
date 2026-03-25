@@ -34,7 +34,7 @@
     "url": "https://muse.mythslabs.ai",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux, Windows",
-    "softwareVersion": "2.30.0",
+    "softwareVersion": "2.32.0",
     "license": "https://opensource.org/licenses/MIT",
     "isAccessibleForFree": true,
     "codeRepository": "https://github.com/myths-labs/muse",
@@ -70,6 +70,9 @@
       "/retro — automated weekly retrospective from memory + git",
       "Git Security Guard — pre-commit secret leak prevention",
       "Systematic Debugging v2 — L1-L4 pressure escalation",
+      "Graph Memory Relations (UPDATES/EXTENDS/DERIVES/NEW auto-detection)",
+      "Auto-Expiry Temporal Tagging (PERMANENT/TEMPORAL/EPISODIC smart forgetting)",
+      "Unexecuted Directive Scan (surface buried 🟡 directives in role files)",
       "Auto memory capture (LESSON/DECISION/FACT extraction)",
       "Semantic compression (3-tier context compression)",
       "Session checkpoint (silent save every 15 rounds)",
@@ -333,12 +336,20 @@
         <div class="feature-card">
           <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 18l6-6-6-6" />
-              <path d="M8 6l-6 6 6 6" />
+              <circle cx="12" cy="12" r="3" />
+              <circle cx="4" cy="6" r="2" />
+              <circle cx="20" cy="6" r="2" />
+              <circle cx="4" cy="18" r="2" />
+              <circle cx="20" cy="18" r="2" />
+              <path d="M6 7l4.5 3.5" />
+              <path d="M18 7l-4.5 3.5" />
+              <path d="M6 17l4.5-3.5" />
+              <path d="M18 17l-4.5-3.5" />
             </svg></div>
-          <h3>VS Code Extension</h3>
-          <p>Activity bar with Roles, Skills, Memory trees. In-editor dashboard, skill search, context health check. 8
-            commands via Cmd+Shift+P.</p>
+          <h3>Graph Memory</h3>
+          <p>UPDATES supersede old facts with <code>~~strikethrough~~</code>. EXTENDS append sub-details. DERIVES link
+            inferences. Auto-Expiry tags entries as <code>[PERMANENT]</code>, <code>[TEMPORAL]</code>, or
+            <code>[EPISODIC]</code> — expired memories fade automatically.</p>
         </div>
       </div>
     </div>
@@ -491,6 +502,20 @@
               <td>—</td>
             </tr>
             <tr>
+              <td>Graph Memory</td>
+              <td class="highlight">✅ UPDATES/EXTENDS/DERIVES</td>
+              <td>Vector similarity</td>
+              <td>Vector similarity</td>
+              <td>DAG nodes</td>
+            </tr>
+            <tr>
+              <td>Smart Forgetting</td>
+              <td class="highlight">✅ Auto-Expiry tags</td>
+              <td>TTL-based</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
               <td>License</td>
               <td class="highlight"><strong>MIT</strong></td>
               <td>Apache 2.0</td>
@@ -565,7 +590,7 @@
       <div class="footer-brand">
         <img src="https://raw.githubusercontent.com/myths-labs/muse/main/assets/logo.png" alt="MUSE" width="24"
           height="24">
-        <span>MUSE v2.30.0</span>
+        <span>MUSE v2.32.0</span>
       </div>
       <div class="footer-links">
         <a href="https://github.com/myths-labs/muse" target="_blank" rel="noopener">GitHub</a>

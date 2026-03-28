@@ -27,7 +27,7 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
 ### 🚨 跨项目 strategy.md 路径
 
 > **strategy.md 始终位于 `DYA/.muse/strategy.md`**，无论当前项目是 DYA/Prometheus/MUSE。
-> 路径由 CLAUDE.md 中的跨项目配置指定
+> 绝对路径: `/Users/jj/Desktop/DYA/.muse/strategy.md`
 > Step 3 的 sync 操作中，所有项目的回传都写入这个文件。
 
 ## 用法
@@ -92,9 +92,9 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
 | Prometheus 开发 | `.muse/build.md`（Prometheus 数据已合并回 DYA build.md） | sync prometheus build up |
 | Prometheus QA | `.muse/qa.md`（同上） | sync prometheus qa broadcast* |
 | Prometheus 增长 | `.muse/growth.md`（同上） | sync prometheus growth up |
-| MUSE 开发 | **`.muse/build.md`** + **strategy.md** | sync muse build up |
-| MUSE QA | **`.muse/qa.md`** | sync muse qa broadcast* |
-| MUSE 增长 | **`.muse/growth.md`** | sync muse growth up |
+| MUSE 开发 | **`/Users/jj/Desktop/MUSE/.muse/build.md`** + **strategy.md** | sync muse build up |
+| MUSE QA | **`/Users/jj/Desktop/MUSE/.muse/qa.md`** | sync muse qa broadcast* |
+| MUSE 增长 | **`/Users/jj/Desktop/MUSE/.muse/growth.md`** | sync muse growth up |
 
 > 🚨 **sync up 必须回传 strategy 规则**:
 > **任何** `sync [project] [role] up` 操作，如果涉及重大事件（版本发布、里程碑、架构变更），
@@ -102,7 +102,7 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
 > strategy.md 是**所有 up 操作的隐含目标**。不是只有 checklist 中的事件才需要回传——
 > 任何 strategy 对话恢复时需要知道的进展都应该回传。
 
-> ⚠️ **MUSE 路径铁律**: MUSE 的 `.muse/` 文件在项目根目录的 `.muse/` 下。跨项目路径在 CLAUDE.md 中配置。
+> ⚠️ **MUSE 路径铁律**: MUSE 的 `.muse/` 文件在 `/Users/jj/Desktop/MUSE/.muse/`，不在 DYA 目录下。
 > Prometheus 已无独立 `.muse/` 目录，数据合并回 DYA 的 `.muse/build.md`。
 
 \* broadcast = 写 QA 报告 + 通知 BUILD + 通知 STRATEGY
@@ -164,68 +164,58 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
 **规则**: `[ ]`→`[x]`(完成) 或 `[ ]`→`[/]`(进行中)。不删除待办项。
 ❌ 只写摘要不更新 checkbox = 执行失败 | ✅ 每项完成的工作在角色文件翻转 `[x]`
 
-### 3.6 🚨 BUILD→QA AC 双写铁律 (v2.34.0 S064)
+### 3.7 🚀 社交发帖（Airachne 网络）
 
-> **根因 (3/25 事件)**: BUILD 写 AC 到 `build.md` 后，QA 对话可能已读过旧版本 → 看不到新 AC → 浪费时间来回确认 → 跨对话 AC 同步失败。
+> **必须在 Step 4 (写 memory) 之前执行。** 发帖结果需要被 memory 记录，放在 memory 之后 = 信息缺失。
 
-**适用条件**: 当前对话是 BUILD 角色 **且** 本轮完成了功能开发/修复
+1. 问用户："要顺便把今日研发进度去 AI 味压缩成一条极客推文发到 X 吗？(Y/N)"
+2. 如果 Y → 生成推文 → 用户确认 → 发布（或用户手动发）→ 记录到 Step 4 memory 中
+3. 如果 N → 跳过，不记录
 
-**必须执行（不可省略）**:
-1. **AC 双写**: 将 AC 列表**同时写入** `build.md` 和 `qa.md` 两个文件
-   - `build.md`: 写入 `## 🎯 BUILD→QA` section（现有行为，保持不变）
-   - `qa.md`: 写入 `## 📡 BUILD→QA 待验证` section，使用以下格式：
-     ```markdown
-     ### ⚡ 新 AC 到达 (YYYY-MM-DD HH:MM) — [版本号/功能名]
-     > 来源: build.md | AC 编号: [AC-SXXX-01 ~ AC-SXXX-NN]
-     
-     | # | AC 描述 | 验证方式 |
-     |:-:|---------|----------|
-     | AC-SXXX-01 | ... | ... |
-     ```
-2. **置顶通知**: 在 `qa.md` 文件的 **第一个 `---` 分隔线之后**追加一行置顶通知：
-   ```markdown
-   ⚡ **[YYYY-MM-DD] BUILD 新增 AC 待验证** — 见下方 `📡 BUILD→QA 待验证` section
-   ```
-   QA 处理后将此行删除。
-3. **统一 AC 编号**: 使用 `AC-SXXX-NN` 格式（S=战略决策编号, NN=序号），两个文件中编号**必须一致**
-   - 例: `AC-S064-01`, `AC-S064-02`, `AC-S064-03`
-   - 如果没有对应的 S 编号，使用 `AC-vX.Y.Z-NN` 格式（版本号）
-   - ❌ 禁止在 build.md 和 qa.md 使用不同编号
+**用户偏好（已确认）**：
+- ✅ **只发 X**，不发 LinkedIn（LinkedIn 留给重大里程碑，不做日常流水线）
+- 🚫 **禁止暴露产品属性**：不能让人猜到是 Avatar SDK / Avatar Marketplace。用抽象技术描述替代
+- 🚫 **去 AI 味铁律**：
+  - 禁止 em dash (—)，用句号或逗号替代
+  - 禁止全小写，正常英文大小写
+  - 禁止 "delve", "leverage", "tapestry", "landscape" 等 AI 高频词
+  - 语气要像真人开发者随口说的，不是 PR 稿
+- 发完后把推文内容 + URL 写入 memory
 
-**检查清单**（Step 6 输出中追加）:
-```
-- [x] Step 3.6: AC 双写=[build.md ✅ + qa.md ✅] / AC 编号=[AC-SXXX-01~NN]
-```
+**发帖方式（已确认）**：
+- 🔴 **禁止使用 browser_subagent 的沙盒浏览器**。那个浏览器没有登录任何账号，发不了。
+- ✅ **X**: 用 `open` 命令打开用户主 Chrome（已登录 X），直接在已登录状态下操作
+- ✅ **LinkedIn**: 后台 API 发帖，不需要登录
+- 如果主 Chrome 方式失败 → 告知用户手动发，给出复制粘贴内容
 
-**不适用时**: 本轮无新功能/修复 → 静默跳过
+### 3.8 🧠 认知与人格镜像同步 (Digital Twin Profiling)
+
+> **对齐 OpenClaw 生态的记忆与成长逻辑：越用越懂用户。**
+> 此步骤用于收集用户的思维方式、表达习惯、决策偏好，并在每次 /bye 时持续修正用户的数字化身（Digital Twin），使 MUSE 和 Airachne 生成的内容越来越贴合用户的「Founder's voice」。
+
+**静默执行（必须包含）：**
+1. **反思提取**：回顾本轮对话中，用户表现出了哪些独特的：
+   - 决策逻辑（如：偏好极致极客风，反感假大空）
+   - 词汇/口头禅（如：特定的英文混用习惯，特定的行业黑话）
+   - 审美/语气要求（如：要求去 AI 破折号，要求短句，避免华丽辞藻）
+2. **状态更新**：打开 `/Users/jj/Desktop/DYA/USER.md`，找到 `## 🧠 认知与人格镜像 (Digital Twin Profile)` 模块：
+   - 将新发现的特征合并进去，修正不准确的旧理解。
+   - 像刻画游戏 NPC 或 OpenClaw Agent 行为树一样，具象化这些属性。
+3. 如果本轮没有明显的新人格特征特征流露，可静默跳过写入。
 
 ### 4. 写短期记忆
 更新 `memory/YYYY-MM-DD.md`（追加，不覆盖之前轮次的内容）：
 ```markdown
 ## [角色] Session [N] (HH:MM-HH:MM)
 - ✅ 上轮遗留: [完成的上一轮"下一步"任务]（如有）
-- 完成: [要点] [EPISODIC]
-- 决策: [决策内容 + 为什么] [PERMANENT]
-- ❌ 否决: [讨论过但否决的方案 + 原因]（如有） [PERMANENT]
-- 💬 关键用户原话: "[用户说的关键判断/纠正]"（如有） [PERMANENT]
-- 🔗 关键 URL/文件: [本轮新产生或涉及的网址、文件路径]（如有） [PERMANENT]
-- 📡 跨对话上下文: [下一轮 Agent 恢复工作必须知道的架构决策/技术选型/讨论结论]（如有） [PERMANENT]
-- ➡️ 下一步: [具体可执行项] [TEMPORAL:YYYY-MM-DD]
+- 完成: [要点]
+- 决策: [决策内容 + 为什么]
+- ❌ 否决: [讨论过但否决的方案 + 原因]（如有）
+- 💬 关键用户原话: "[用户说的关键判断/纠正]"（如有）
+- 🔗 关键 URL/文件: [本轮新产生或涉及的网址、文件路径]（如有）
+- 📡 跨对话上下文: [下一轮 Agent 恢复工作必须知道的架构决策/技术选型/讨论结论]（如有）
+- ➡️ 下一步: [具体可执行项]
 ```
-
-> 🆕 **v2.32.0 — Temporal Classification**: 每条 memory 条目末尾标注时效标签。
-
-| 标签 | 含义 | 适用场景 | `/resume` 行为 |
-|------|------|---------|---------------|
-| `[PERMANENT]` | 永不过期 | 架构决策、用户偏好、教训、关键事实 | 始终加载 |
-| `[TEMPORAL:YYYY-MM-DD]` | 到期后过期 | 截止日期、版本特定 bug、活动事件 | 过期后跳过 |
-| `[EPISODIC]` | 会话上下文，自然衰减 | 调试过程、进度笔记、临时讨论 | 3 天后降权，仅保留 section header |
-
-**自动分类规则**（Agent 写 memory 时直接应用）：
-- 截止日期 / 加速器 / 版本特定 → `[TEMPORAL:到期日期]`
-- 架构决策 / 用户偏好 / 教训 / 否决 / 用户原话 → `[PERMANENT]`
-- 会话进度 / 调试 / 完成项 / 中间决策 → `[EPISODIC]`
-- 不确定 → 默认 `[EPISODIC]`（安全默认，自然衰减）
 
 > 🚨 **上轮遗留回写规则（RC-2 修复）**:
 > 读取当天 memory 文件中前几个 Session 的「➡️ 下一步」条目，如果本轮完成了其中任何一项:
@@ -235,44 +225,6 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
 
 > ⚠️ **「如有」≠「可省略」**：如果本轮有否决/纠正/URL 但你没写 → 等于你制造了记忆黑洞。
 > 🔴 **最常见遗漏**: 用户纠正了 Agent 的理解但 Agent 没记录 → 下轮 Agent 重犯同样错误。
-
-### 4.7 图关系感知自动捕获（Graph-Aware Auto Capture）
-
-> 🆕 **v2.32.0 — P0 Graph Memory Relations**: Auto Capture 写入 MEMORIES.md 前必须检测关系。
-
-当 session 结束自动捕获 `[FACT]`/`[DECISION]`/`[LESSON]` 到 MEMORIES.md 时：
-
-1. **写入前对比**: 将每条候选条目与 MEMORIES.md 现有条目逐一比对
-2. **关系分类**:
-   - `UPDATES` → 旧条目加 `~~删除线~~` + `(historical: superseded by [TAG] YYYY-MM-DD)`，写入新条目
-   - `EXTENDS` → 在现有条目下追加 `↳ EXTENDS:` 子弹点，不创建新条目
-   - `DERIVES` → 新条目添加 `(derived from: [EXISTING_TAG])`
-   - `NEW` → 正常追加（当前行为）
-3. **Strikethrough 保护**: 只有 `[FACT]` 和 `[DECISION]` 可被 UPDATES，`[LESSON]` 保留原文
-4. **每次 `/bye` 最多 5 条**自动捕获（现有限制不变），不捕获 TODO
-
-> 详细关系检测规则见 `distill.md` Step 3a。
-
-### 4.9 Dynamic Profile 自动更新 (v2.33.0)
-
-> 🆕 **S060 — Static/Dynamic Profile 分层**: `/bye` 自动从本轮会话中推断用户当前工作焦点并更新 `USER.md` 的 `Dynamic Profile` 区。
-
-**执行步骤**:
-1. **读取 USER.md** 的 `## Dynamic Profile` → `### Active Focus (auto-updated)` section
-2. **从本轮工作摘要中推断 1-3 个活跃焦点**:
-   - 格式: `- **[topic]**: [brief context] (updated: YYYY-MM-DD)`
-   - 主题粒度 = 功能/项目/任务级（如 "Prometheus Live Voice" / "MUSE v2.33.0" / "Alliance DAO 申请"）
-   - 描述简洁 ≤15 词
-3. **Dedup 更新**:
-   - 如果 Dynamic Profile 已有同主题条目 → **更新**内容和日期（不新增）
-   - 如果无同主题 → **追加**
-   - ⚠️ **不要在 /bye 时删除旧条目**（由 /resume 的 7 天窗口过滤负责）
-4. **容量上限**: Dynamic Profile 最多 **10 条**。超出时删最旧的
-
-**Guardrails**:
-- ❌ 不修改 `Static Profile` section（只有 `/settings` 和人工编辑可以改）
-- ❌ 不捕获一次性调试细节（那属于 memory/，不属于 profile）
-- ✅ 只捕获「下次对话恢复时需要快速理解的工作焦点」
 
 ### 4.5 角色文件膨胀检查（静默）
 **每次 /bye 都检查**，不需要用户触发：
@@ -358,10 +310,11 @@ description: 结束对话的一键收尾指令。自动汇总工作、同步 .mu
 - [x] Step 3: 同步已执行 → [列出同步了哪些 .muse/ 文件]
   - [x] 重大事件 checklist 已检查
   - [x] Cross-check 校验已执行
+- [x] Step 3.7: 社交发帖=[已发X/已跳过]
+- [x] Step 3.8: 认知镜像更新=[已更新 USER.md/无新特征]
 - [x] Step 4: memory/YYYY-MM-DD.md 已更新
 - [x] Step 4.5: 角色文件膨胀=[N行/无需归档]
 - [x] Step 4.6: Distill=[无需/建议执行]
-- [x] Step 4.9: Dynamic Profile=[N条更新/无变化]
 - [x] Step 5: 导出 → convo/YYMMDD/YYMMDD-NN-desc.md
 ```
 

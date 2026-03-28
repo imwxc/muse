@@ -2,7 +2,7 @@
 
 > Roles, Memory, Skills, in Plain Markdown. Zero dependencies.
 
-MUSE is the only full governance system for AI pair programming. It goes beyond format specs (AGENTS.md, .cursorrules) and memory infrastructure (mem0, MemOS) by providing role isolation, persistent memory, 58 skills, cross-role directives, TF-IDF search, and visual dashboards — all in pure Markdown.
+MUSE is the only full governance system for AI pair programming. It goes beyond format specs (AGENTS.md, .cursorrules) and memory infrastructure (mem0, MemOS) by providing role isolation, persistent memory, 62 skills, cross-role directives, TF-IDF search, and visual dashboards — all in pure Markdown.
 
 ## Core Concept
 

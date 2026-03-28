@@ -1,3 +1,20 @@
+## [2.36.0] - 2026-03-30
+
+### Added
+- **`context7` Skill** — Real-time documentation retrieval when coding. Fetches latest library/framework API docs instead of relying on training data. Source: [upstash/context7](https://github.com/upstash/context7).
+- **`deep-dive` Skill** — 2-stage pipeline: trace (causal investigation) → deep-interview (requirements crystallization) with 3-point injection. Source: [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode).
+- **`trace` Skill** — Evidence-driven tracing lane that orchestrates competing hypotheses for root-cause analysis. Source: oh-my-claudecode.
+- **`sciomc` Skill** — Parallel scientist agents for comprehensive research with AUTO mode. Source: oh-my-claudecode.
+- **Skills count**: 58 → 62 (Core 7 + Toolkit 42 + Ecosystem 13)
+
+### Fixed
+- **Security**: Removed hardcoded API key from benchmark test file (`scripts/s061v2_bench/test_sdk.js`)
+
+## [2.35.0] - 2026-03-28
+
+### Added
+- **Digital Twin Profiling** — The `/bye` workflow now actively extracts the user's communication style, decision-making logic, and vocabulary, and continuously writes it into a "Digital Twin Profile". This enables the system to increasingly mimic the user's native "Founder's Voice" over time, mirroring the OpenClaw passive adaptation loop.
+
 # Changelog
 
 ## [2.34.0] - 2026-03-25

@@ -131,3 +131,44 @@ Code reviewer: Strengths: Good test coverage, clean. Issues: None. Approved.
 - Controller curates exactly what context is needed
 - Subagent gets complete information upfront
 - Questions surfaced before work begins
+
+## v3.0: Coordinator Integration
+
+> Enhanced with patterns from Anthropic's internal coordinator architecture.
+
+### 4-Phase Alignment
+
+This skill maps onto the coordinator's 4-phase workflow:
+
+| Coordinator Phase | SDD Equivalent |
+|------------------|---------------|
+| **Research** | Implementer reads task, asks questions |
+| **Synthesis** | Controller synthesizes answers into context |
+| **Implementation** | Implementer implements, tests, commits |
+| **Verification** | Spec reviewer + Code quality reviewer |
+
+### Key Upgrade: Synthesis Before Dispatch
+
+When providing context to implementer subagents, **synthesize — don't dump**:
+
+```markdown
+❌ WRONG: "Here's the plan file, go implement task 3"
+✅ RIGHT: "Task 3: Add rate limiting middleware.
+   File: src/middleware/rateLimit.ts (create new)
+   Pattern: Follow src/middleware/auth.ts structure.
+   Limit: 100 req/min per IP using sliding window.
+   Store: Redis via existing src/lib/redis.ts client.
+   Tests: src/middleware/__tests__/rateLimit.test.ts"
+```
+
+### Continue vs Spawn for Reviewers
+
+- **Spec reviewer** → Spawn fresh (no implementation bias)
+- **Code quality reviewer** → Spawn fresh (independent assessment)
+- **Implementer fixing review feedback** → Continue (has error context)
+
+### Related Skills
+- `coordinator-mode` — Full multi-agent coordination SOP
+- `dispatching-parallel-agents` — Parallel execution patterns
+- `verification-before-completion` — Evidence-based verification
+

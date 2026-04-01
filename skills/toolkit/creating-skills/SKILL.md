@@ -46,19 +46,60 @@ EOF
 ---
 name: skill-name          # lowercase, hyphens, no spaces
 description: <desc>       # CRITICAL for discovery (max 1024 chars)
-dependencies:             # OPTIONAL: skills that must be loaded first
-  - git-commit            # list prerequisite skill names
-  - systematic-debugging
 ---
 ```
 
-**Fields:**
+### Advanced Frontmatter (v3.0)
 
-| Field | Required | Description |
-|-------|:--------:|-------------|
-| `name` | ✅ | Lowercase, hyphens, no spaces |
-| `description` | ✅ | What + When + Capabilities (max 1024 chars) |
-| `dependencies` | ❌ | List of prerequisite skill names |
+> Inspired by Claude Code's internal skills architecture (loadSkillsDir.ts).
+
+```yaml
+---
+name: skill-name
+description: <What it does>. <Key capabilities>.
+
+# v3.0 fields — separate trigger logic from description
+when_to_use: >
+  Use when user wants to create PR, open pull request,
+  or merge feature. Also triggers on 'review', 'submit'.
+  
+# Security: restrict which tools this skill can use
+allowed-tools:
+  - run_command
+  - view_file
+  - grep_search
+  # Omit dangerous tools like write_to_file for read-only skills
+
+# Auto-activate when editing files matching these paths
+paths:
+  - src/auth/**
+  - lib/security/**
+
+# Parameterized skills: $1, $2 substitution
+arguments: [target_file, test_scope]
+argument-hint: "<file> [scope]"
+
+# Control execution depth
+effort: thorough  # Options: minimal, standard, thorough
+
+# Specify a model for this skill (rare)
+# model: claude-sonnet-4-20250514
+
+# Whether users can invoke directly (vs agent-only)
+user-invocable: true
+
+# Pure text skill (no LLM invocation)
+# disable-model-invocation: false
+
+# Isolated execution context
+# context: fork
+---
+```
+
+**When to use `when_to_use` vs `description`:**
+- `description` = WHAT the skill does (appears in listings)
+- `when_to_use` = WHEN to trigger it (matching logic, trigger phrases)
+- Keeping them separate prevents the description from becoming a keyword dump
 
 ### Description Formula
 
@@ -215,7 +256,6 @@ python3 script.py | grep "Result:"
 Before finalizing a skill:
 
 - [ ] **Frontmatter**: name + description present
-- [ ] **Dependencies**: listed if skill requires other skills
 - [ ] **Description**: includes WHAT + WHEN triggers + capabilities
 - [ ] **Naming**: lowercase, hyphens, descriptive
 - [ ] **Quick Start**: copy-paste ready, < 30 lines
@@ -233,87 +273,6 @@ Before finalizing a skill:
 | Multiple workflows | Confusing | One clear path |
 | Verbose examples | Token waste | Minimal examples |
 | Custom systems | Non-standard | Use official patterns |
-| Generic personality | Forgettable, no engagement | Strong identity + voice |
-| No deliverables | Vague output | Concrete outputs + success metrics |
-| No learning section | Stateless repetition | Pattern recognition + improvement |
-
-## Agent Personality Framework
-
-> Absorbed from [agency-agents](https://github.com/msitarzewski/agency-agents) (35K+ ⭐) prompt engineering best practices.
-
-### Five Pillars of Effective Agent Design
-
-Premium skills go beyond instructions — they create **specialists with character**:
-
-| Pillar | What it does | Example |
-|--------|-------------|---------|
-| 🎭 **Strong Identity** | Name + role + personality traits | "You are **CodeReviewer**, a thorough code review mentor" |
-| 📋 **Clear Deliverables** | Concrete outputs, not vague guidance | "Produce a Verification Report table with AC verdicts" |
-| ✅ **Success Metrics** | Measurable outcomes | "Zero P0 issues, all error paths covered" |
-| 🔄 **Proven Workflow** | Step-by-step process | Numbered phases with entry/exit criteria |
-| 💡 **Learning Memory** | Pattern recognition directive | "Remember common anti-patterns across sessions" |
-
-### Personality Design Template
-
-For skills that benefit from persona (agents, reviewers, specialists):
-
-```markdown
-## 🧠 Identity & Memory
-- **Role**: [specific specialization]
-- **Personality**: [3-4 adjectives: e.g., constructive, thorough, educational]
-- **Voice**: [communication style: e.g., "Reviews like a mentor, not a gatekeeper"]
-
-## 🎯 Core Mission
-[What this agent achieves — 3-5 numbered priorities]
-
-## 🔧 Critical Rules
-[Non-negotiable constraints with bold **ALWAYS**/**NEVER**]
-
-## 💬 Communication Style
-- Be specific: "SQL injection risk on line 42" not "security issue"
-- Explain why, not just what
-- Suggest, don't demand
-
-## 🔄 Learning & Memory
-Remember across sessions:
-- Successful patterns that produce quality output
-- Common pitfalls in this domain
-- User preferences and project conventions
-```
-
-### Priority Markers
-
-Use consistent markers for issue classification:
-
-| Marker | Meaning | When to use |
-|--------|---------|-------------|
-| 🔴 **Blocker** | Must fix before done | Security, data loss, breaking changes |
-| 🟡 **Suggestion** | Should fix | Missing validation, unclear naming, perf |
-| 💭 **Nit** | Nice to have | Style, minor naming, docs gaps |
-
-### Skill Quality Elevation Checklist
-
-Beyond the basic quality checklist, premium skills should also satisfy:
-
-- [ ] **Identity**: Does the skill have a clear persona or voice?
-- [ ] **Deliverables**: Are concrete output formats defined?
-- [ ] **Process**: Is there a numbered, repeatable workflow?
-- [ ] **Judgment**: Can the skill self-assess quality of its output?
-- [ ] **Learning**: Does it instruct remembering patterns across sessions?
-
-## Cross-Tool Compatibility
-
-MUSE skills can be exported to other tools via `scripts/convert-skills.sh`:
-
-| Target Tool | Format | Command |
-|-------------|--------|---------|
-| Cursor | `.mdc` rule files | `./scripts/convert-skills.sh --tool cursor` |
-| Windsurf | `.windsurfrules` | `./scripts/convert-skills.sh --tool windsurf` |
-| Copilot | `.github/copilot-instructions.md` | `./scripts/convert-skills.sh --tool copilot` |
-| OpenClaw | Agent files | `./scripts/convert-skills.sh --tool openclaw` |
-| Aider | `CONVENTIONS.md` | `./scripts/convert-skills.sh --tool aider` |
-
-Reverse import from agency-agents: `./scripts/convert-skills.sh --import agency-agents /path/to/repo`
 
 ## Examples
 

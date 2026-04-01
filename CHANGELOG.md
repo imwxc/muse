@@ -1,3 +1,14 @@
+## [2.38.0] - 2026-04-01
+
+### Added
+- **`iterative-retrieval` Skill** — Pattern for progressively refining context retrieval. Solves the subagent context problem with self-contained context principle.
+- **Skills count**: 64 → 65 (Core 7 + Toolkit 45 + Ecosystem 13)
+
+### Changed
+- **`verification-before-completion` Upgrade** — AC-first workflow, pre-flight fast-fail, structured Judge verdicts, "What Real Verification Looks Like" section.
+- **`creating-skills` Upgrade** — Advanced Frontmatter v3.0 (when_to_use / allowed-tools / paths separation).
+- **`subagent-driven-development` Upgrade** — 4-stage workflow mapping with spec compliance + code quality two-stage review.
+
 ## [2.37.0] - 2026-04-01
 
 ### Added

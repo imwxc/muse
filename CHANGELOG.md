@@ -1,3 +1,12 @@
+## [2.37.0] - 2026-04-01
+
+### Added
+- **`coordinator-mode` Skill** — Multi-agent coordination SOP derived from Anthropic's internal coordinator architecture. Synthesis iron law (understand → spec → dispatch), Continue/Spawn decision matrix, concurrency management rules.
+- **Skills count**: 62 → 64 (Core 7 + Toolkit 44 + Ecosystem 13)
+
+### Changed
+- **`dispatching-parallel-agents` Rewrite** — Enhanced with synthesis iron law, self-contained prompt requirement, continue/spawn matrix, and read-only vs write concurrency rules. Source: Anthropic coordinator patterns.
+
 ## [2.36.0] - 2026-03-30
 
 ### Added

@@ -10,7 +10,7 @@
 #   ./scripts/install.sh --target /path       # Set target project directory
 #   ./scripts/install.sh --help               # Show usage
 #
-# Supported tools: claude, openclaw, cursor, windsurf, gemini, codex
+# Supported tools: claude, openclaw, cursor, windsurf, gemini, codex, opencode
 
 set -euo pipefail
 
@@ -37,7 +37,7 @@ TARGET_DIR="."
 SELECTED_TOOL=""
 SKILL_TIERS="core toolkit"  # default: install core + toolkit
 
-ALL_TOOLS=(claude openclaw cursor windsurf gemini codex)
+ALL_TOOLS=(claude openclaw cursor windsurf gemini codex opencode)
 
 # ── Usage ──
 usage() {
@@ -67,6 +67,7 @@ ${BOLD}SUPPORTED TOOLS${RESET}
   windsurf   Windsurf IDE (.windsurf/rules/*.md)
   gemini     Gemini CLI (.gemini/ + GEMINI.md)
   codex      Codex CLI (AGENTS.md — all skills concatenated)
+  opencode   OpenCode / oh-my-opencode (.agents/skills/ + CLAUDE.md)
 EOF
   exit 0
 }
@@ -118,6 +119,11 @@ detect_tools() {
   # Codex CLI: check for codex command
   if command -v codex &>/dev/null; then
     detected+=(codex)
+  fi
+
+  # OpenCode / oh-my-opencode: check for opencode command or .agents/ dir
+  if command -v opencode &>/dev/null || [[ -d "$TARGET_DIR/.agents" ]]; then
+    detected+=(opencode)
   fi
 
   echo "${detected[@]}"
@@ -463,6 +469,34 @@ HEREDOC
   info "${skill_count} skills + workflows → AGENTS.md ✅"
 }
 
+install_opencode() {
+  header "📦 Installing for OpenCode / oh-my-opencode..."
+  local dest="$TARGET_DIR/.agents"
+  mkdir -p "$dest/skills"
+
+  for tier in $SKILL_TIERS; do
+    if [[ -d "$SKILLS_DIR/$tier" ]]; then
+      cp -r "$SKILLS_DIR/$tier" "$dest/skills/"
+    fi
+  done
+  if [[ -d "$SKILLS_DIR/ecosystem" ]]; then
+    cp -r "$SKILLS_DIR/ecosystem" "$dest/skills/"
+  fi
+
+  if [[ ! -f "$TARGET_DIR/CLAUDE.md" ]]; then
+    cp "$TEMPLATES_DIR/CLAUDE.md" "$TARGET_DIR/CLAUDE.md"
+    info "CLAUDE.md created"
+  else
+    info "CLAUDE.md already exists (skipped)"
+  fi
+
+  warn "OpenCode doesn't have native slash commands."
+  warn "Workflows (/resume, /bye, /sprint) are not installed."
+  warn "Skills, CLAUDE.md, and MCP Server work fully."
+
+  info "Skills → .agents/skills/ ✅"
+}
+
 # ══════════════════════════════════════════════
 # Main
 # ══════════════════════════════════════════════
@@ -531,6 +565,7 @@ main() {
   echo "  [3] Windsurf ${DIM}(.windsurf/rules/*.md)${RESET}"
   echo "  [4] Gemini CLI ${DIM}(.gemini/skills/)${RESET}"
   echo "  [5] Codex CLI ${DIM}(AGENTS.md)${RESET}"
+  echo "  [6] OpenCode ${DIM}(.agents/skills/)${RESET}"
   echo "  [a] All detected tools"
   echo "  [q] Quit"
   echo ""
@@ -543,6 +578,7 @@ main() {
     3) run_install "windsurf" ;;
     4) run_install "gemini" ;;
     5) run_install "codex" ;;
+    6) run_install "opencode" ;;
     a|A)
       local tools_to_install=("${detected_arr[@]}")
       [[ ${#tools_to_install[@]} -eq 0 ]] && tools_to_install=("${ALL_TOOLS[@]}")
@@ -565,6 +601,7 @@ run_install() {
     windsurf)        install_windsurf ;;
     gemini)          install_gemini ;;
     codex)           install_codex ;;
+    opencode)        install_opencode ;;
     *) error "Unknown tool: $tool"; return 1 ;;
   esac
 }

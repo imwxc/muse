@@ -3,7 +3,7 @@
 # Convert MUSE skills to/from other AI coding tool formats.
 #
 # Supports:
-#   Export: cursor, windsurf, copilot, openclaw, aider, antigravity
+#   Export: cursor, windsurf, copilot, openclaw, aider, antigravity, opencode
 #   Import: agency-agents repo → MUSE skill format
 #
 # Usage:
@@ -183,6 +183,31 @@ ${body}
 HEREDOC
 }
 
+convert_opencode() {
+  local file="$1" target_dir="$2"
+  local name description slug outdir body
+
+  name="$(get_field "name" "$file")"
+  description="$(get_field "description" "$file")"
+  [[ -z "$name" ]] && return
+  slug="muse-$(slugify "$name")"
+  body="$(get_body "$file")"
+
+  outdir="$target_dir/.agents/skills/$slug"
+  outfile="$outdir/SKILL.md"
+  mkdir -p "$outdir"
+
+  cat > "$outfile" <<HEREDOC
+---
+name: ${slug}
+description: ${description}
+source: muse
+date_added: '${TODAY}'
+---
+${body}
+HEREDOC
+}
+
 # ─── Import: agency-agents → MUSE ───
 
 import_agency_agents() {
@@ -286,6 +311,7 @@ run_export() {
       openclaw)     convert_openclaw     "$skill_file" "$target_dir" ;;
       aider)        convert_aider        "$skill_file" "$target_dir" ;;
       antigravity)  convert_antigravity  "$skill_file" "$target_dir" ;;
+      opencode)     convert_opencode     "$skill_file" "$target_dir" ;;
     esac
 
     (( count++ )) || true
@@ -334,6 +360,7 @@ usage() {
   echo "  openclaw     → .openclaw/agents/*/SOUL.md + AGENTS.md"
   echo "  aider        → CONVENTIONS.md (single combined file)"
   echo "  antigravity  → .gemini/antigravity/skills/*/SKILL.md"
+  echo "  opencode     → .agents/skills/*/SKILL.md (native OpenCode format)"
   echo "  all          → all formats at once"
   echo ""
   echo "Import from agency-agents (35K+ ⭐):"
@@ -468,7 +495,7 @@ echo "  Skills: $SKILL_COUNT"
 echo "  Target: $TARGET_DIR"
 
 if [[ "$TOOL" == "all" ]]; then
-  for t in cursor windsurf copilot openclaw aider antigravity; do
+  for t in cursor windsurf copilot openclaw aider antigravity opencode; do
     header "📤 Exporting → $t"
     run_export "$t" "$TARGET_DIR"
   done

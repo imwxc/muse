@@ -190,7 +190,7 @@ convert_opencode() {
   name="$(get_field "name" "$file")"
   description="$(get_field "description" "$file")"
   [[ -z "$name" ]] && return
-  slug="muse-$(slugify "$name")"
+  slug="$(slugify "$name")"
   body="$(get_body "$file")"
 
   outdir="$target_dir/.agents/skills/$slug"
@@ -199,7 +199,7 @@ convert_opencode() {
 
   cat > "$outfile" <<HEREDOC
 ---
-name: ${slug}
+name: ${name}
 description: ${description}
 source: muse
 date_added: '${TODAY}'

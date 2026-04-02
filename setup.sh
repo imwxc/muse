@@ -138,7 +138,8 @@ echo "   [2] Cursor"
 echo "   [3] Windsurf"
 echo "   [4] Gemini CLI"
 echo "   [5] Codex CLI"
-echo "   [6] Multiple / auto-detect"
+echo "   [6] OpenCode / oh-my-opencode"
+echo "   [7] Multiple / auto-detect"
 echo ""
 read -p "   Choice [1]: " tool_choice
 tool_choice=${tool_choice:-1}
@@ -150,7 +151,8 @@ if [ -f "$INSTALL_SCRIPT" ] && [ "$tool_choice" != "1" ]; then
     3) "$INSTALL_SCRIPT" --tool windsurf --target "$TARGET_DIR" ;;
     4) "$INSTALL_SCRIPT" --tool gemini --target "$TARGET_DIR" ;;
     5) "$INSTALL_SCRIPT" --tool codex --target "$TARGET_DIR" ;;
-    6) "$INSTALL_SCRIPT" --tool all --target "$TARGET_DIR" ;;
+    6) "$INSTALL_SCRIPT" --tool opencode --target "$TARGET_DIR" ;;
+    7) "$INSTALL_SCRIPT" --tool all --target "$TARGET_DIR" ;;
     *) ;; # skip
   esac
 elif [ "$tool_choice" = "1" ]; then

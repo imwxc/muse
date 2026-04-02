@@ -474,13 +474,37 @@ install_opencode() {
   local dest="$TARGET_DIR/.agents"
   mkdir -p "$dest/skills"
 
+  # Flatten skill directories: .agents/skills/<name>/ (no tier nesting)
+  # This ensures OmO's namePrefix stays empty → skill names match frontmatter `name:`
+  local skill_count=0
   for tier in $SKILL_TIERS; do
-    if [[ -d "$SKILLS_DIR/$tier" ]]; then
-      cp -r "$SKILLS_DIR/$tier" "$dest/skills/"
-    fi
+    local tier_dir="$SKILLS_DIR/$tier"
+    [[ ! -d "$tier_dir" ]] && continue
+    for skill_dir in "$tier_dir"/*/; do
+      local skill_file="$skill_dir/SKILL.md"
+      [[ ! -f "$skill_file" ]] && continue
+      local name
+      name=$(get_field "name" "$skill_file")
+      [[ -z "$name" ]] && name=$(basename "$skill_dir")
+      cp -r "$skill_dir" "$dest/skills/$name"
+      ((skill_count++))
+    done
   done
+
+  # Ecosystem has extra nesting: ecosystem/<category>/<skill>/SKILL.md → flatten
   if [[ -d "$SKILLS_DIR/ecosystem" ]]; then
-    cp -r "$SKILLS_DIR/ecosystem" "$dest/skills/"
+    for category_dir in "$SKILLS_DIR/ecosystem"/*/; do
+      [[ ! -d "$category_dir" ]] && continue
+      for skill_dir in "$category_dir"/*/; do
+        local skill_file="$skill_dir/SKILL.md"
+        [[ ! -f "$skill_file" ]] && continue
+        local name
+        name=$(get_field "name" "$skill_file")
+        [[ -z "$name" ]] && name=$(basename "$skill_dir")
+        cp -r "$skill_dir" "$dest/skills/$name"
+        ((skill_count++))
+      done
+    done
   fi
 
   if [[ ! -f "$TARGET_DIR/CLAUDE.md" ]]; then
@@ -494,7 +518,7 @@ install_opencode() {
   warn "Workflows (/resume, /bye, /sprint) are not installed."
   warn "Skills, CLAUDE.md, and MCP Server work fully."
 
-  info "Skills → .agents/skills/ ✅"
+  info "${skill_count} skills → .agents/skills/ ✅"
 }
 
 # ══════════════════════════════════════════════
